@@ -1,0 +1,177 @@
+.profile-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+        padding: 20px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    margin-right: 20px;
+    border: 3px solid #007bff; /* Accent border */
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.username {
+    font-size: 28px;
+    margin: 0;
+}
+
+.tagline {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.location {
+    font-size: 14px;
+    color: #777;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.about-section, .interests-section, .social-links, .activity-section {
+    margin-bottom: 20px;
+}
+
+.profileinfo {
+    font-size: 22px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.bio {
+    margin-bottom: 10px;
+}
+
+
+
+
+.activity-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-item {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.about-section {
+    margin-bottom: 20px;
+}
+
+.profileinfo {
+    font-size: 22px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.profile-table th, .profile-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #dee2e6; /* Light gray border */
+}
+
+.profile-table th {
+    background-color: #777; /* Primary color for header */
+    color: white;
+}
+
+.profile-table tr:nth-child(even) {
+    background-color: #f8f9fa; /* Light background for even rows */
+}
+
+.profile-table tr:hover {
+    background-color: #e2e3e5; /* Hover effect */
+}
+.profile-table tr td{
+    color: rgb(31, 2, 58);
+    font-weight: 500;
+}
+@media (max-width: 600px) {
+    .profile-table th, .profile-table td {
+        padding: 10px; /* Adjust padding for small screens */
+        font-size: 14px; /* Adjust font size */
+    }
+}
+
+.profileBtn{
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    /* gap: 10%; */
+}
+.profileBtn .updateBtn{
+    background-color: #39c5f0;
+    color: white;
+    border-radius: 20px;
+
+}
+.profileBtn .updateBtn:hover{
+    background-color: black;
+    color: white;
+    /* font-weight: 600; */
+}
+.profileBtn .orderHistoryBtn{
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+
+}
+.profileBtn .orderHistoryBtn:hover{
+    background-color: #39c5f0;
+    color: white;
+    /* font-weight: 600; */
+}
+
+
+.main-menu-block1 .cart-product{
+    background-color: #39c5f0;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 8px;
+    color: white;
+    margin-left: 15px;
+
+
+}

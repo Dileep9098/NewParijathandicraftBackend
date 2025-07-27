@@ -1,0 +1,21 @@
+
+.termsCondition p{
+    display: block;
+    margin-block-start: 1em!important;
+    margin-block-end: 1em!important;
+    margin-inline-start: 0px!important;
+    margin-inline-end: 0px!important;
+    unicode-bidi: isolate!important;
+    
+}
+
+.MsoNormal{
+    font-family: 'Arial', sans-serif!important;
+    font-weight: 400!important;
+    color: #6f6f6f!important;
+    line-height: 20px!important;
+    font-size: 12px!important;
+}
+.termsCondition h5{
+    font-size: 13px;
+}

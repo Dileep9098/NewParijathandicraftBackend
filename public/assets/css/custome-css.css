@@ -1,0 +1,173 @@
+.footer {
+    /* background-color: aqua !important; */
+    background-image: linear-gradient(to right, #243949 0%, #496b86 100%);
+    color: white !important;
+
+}
+.mainColor{
+    /* background-image: linear-gradient(to right, #243949 0%, #496b86 100%) !important; */
+    color: #243949 !important;
+
+}
+
+.footer__about p {
+    color: white;
+    line-height: 1.8;
+    text-transform: capitalize;
+    font-family: "Raleway,sans-serif";
+}
+
+.footer .quickLink h6 {
+    color: white;
+    font-family: "Raleway,sans-serif";
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.footer .quickLink ul li {
+    list-style: none;
+    padding-bottom: 15px;
+    line-height: 1.2;
+
+
+}
+
+.footer .quickLink ul li a {
+    font-family: sans-serif;
+    font-size: 14px;
+    letter-spacing: .03em;
+
+    text-transform: capitalize;
+    color: #fff;
+
+}
+
+/* .homeSlider img{
+    width: 100%;
+    height: 600px;
+}
+.homeSlider{
+    margin-bottom: 10px;
+    padding: 20px;
+}
+.homeSlider .imgDiv{
+    position: relative;
+} */
+/* HomeSlider.css */
+
+.mobileBottomNavigation {
+    display: none;
+}
+
+.horizentalLine {
+    border: 1px solid gray;
+}
+
+
+.dropdownAction .dropdown-item{
+    color: rgb(0, 0, 78);
+ font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 767px) {
+    .mobileBottomNavigation {
+        bottom: -10px;
+        margin-bottom: -10px;
+    }
+
+}
+
+@media (max-width: 991px) {
+
+    .hero__categories1 {
+        display: none !important;
+    }
+
+    .mobileBottomNavigation {
+        display: block;
+    }
+
+
+}
+
+@media (max-width: 1200px) {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*👉👉👉 Admin Style -----------------------------
+___________________________________________________*/
+
+.adminAddBtn {
+    background-image: linear-gradient(to right, #243949 0%, #496b86 100%);
+    border-radius: 20px;
+    border-style: none;
+    box-sizing: border-box;
+    color: white !important;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 40px;
+    text-align: center;
+    text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+    transition: all .5s;
+    user-select: none;
+
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    margin-right: 20px;
+}
+
+.adminAddBtn:hover {
+    background-image: linear-gradient(to left, #243949 0%, #496b86 100%);
+    border-radius: 0px;
+
+    box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+    transition-duration: .1s;
+}
+
+.form-save-btn{
+float: right;
+}

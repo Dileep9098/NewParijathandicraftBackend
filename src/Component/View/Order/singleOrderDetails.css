@@ -1,0 +1,65 @@
+.order-container1 {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.product-img1 {
+    width: 300px;
+    height: auto;
+}
+
+.order-status1 {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    position: relative;
+}
+
+.order-status1::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    height: calc(100% - 24px);
+    width: 4px;
+    background-color: #28a745;
+}
+
+
+/* ✅ Order Status Items */
+.order-step {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 20px;
+}
+
+/* ✅ Green Circle Icons */
+.order-step i {
+    color: #28a745;
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    background-color: white;
+    padding: 2px;
+    border-radius: 50%;
+}
+
+/* ✅ Last Item Margin Fix */
+.order-step:last-child {
+    margin-bottom: 0;
+}
+
+
+@media(max-width:576px){
+    .product-img1 {
+        width: 140px;
+        height: auto;
+        margin-top:-100px
+    }
+    .order-container1{
+        padding: 14px;
+    }
+}

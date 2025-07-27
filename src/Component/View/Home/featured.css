@@ -1,0 +1,201 @@
+.featured__item {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.featured__item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.featured__item__pic {
+    position: relative;
+    height: 200px;
+    /* Set a fixed height */
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.featured__item__pic img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.featured__item__text h6 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.featured__item__text h5 {
+    font-size: 18px;
+    color: #001a41;
+}
+
+.viewMore {
+    background-image: linear-gradient(to right, #243949 0%, #496b86 100%);
+    color: white;
+}
+
+.banner__pic img {
+    height: 320px;
+
+    width: 100%;
+}
+
+.banner__pic {
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.banner__contant {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 40px 50px;
+    margin-top: 30px;
+    color: rgb(250, 250, 250);
+}
+
+.banner__contant p {
+    color: hsl(232, 100%, 17%);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.banner__contant h1 {
+    font-weight: 700;
+    font-size: 38px;
+    box-shadow: inset;
+
+}
+
+.banner__contant h4 {
+    font-weight: 700;
+    font-size: 23px;
+}
+
+
+/* CSS */
+.shopNowBtn {
+    background: linear-gradient(to right, #243949 0%, #496b86 100%);
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+}
+
+.shopNowBtn:not([disabled]):focus {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.shopNowBtn:not([disabled]):hover {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.viewMoreDetails {
+    background-color: rgb(18, 140, 109);
+    color: white;
+    border-radius: 10px;
+    font-size: 18px;
+
+}
+
+.viewMoreDetails:hover {
+    background-color: rgb(8, 93, 71);
+    color: white;
+    border-radius: 10px;
+}
+
+.shadowed-title {
+    text-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+
+@media (max-width: 756px) {
+    .featured__controls {
+        text-align: start;
+        margin-bottom: 30px;
+
+    }
+
+    .featured__controls #featured__controls_list {
+        font-size: 10px;
+        font-weight: 700;
+    }
+    .featured .section-title h2::after {
+       
+        width: 200px;
+        background: #000851;
+       
+    }
+    
+.banner__contant {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px 50px;
+    margin-top: 10px;
+    color: rgb(250, 250, 250);
+}
+
+.banner__contant p {
+    color: hsl(232, 100%, 17%);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.banner__contant h1 {
+    font-weight: 700;
+    font-size: 28px;
+    box-shadow: inset;
+
+}
+
+.banner__contant h4 {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.shopNowBtn {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 1rem;
+  
+}
+
+.viewMoreDetails {
+    border-radius: 10px;
+    font-size: 14px;
+
+}
+
+
+
+}
+
+
+@media (max-width: 442px) {
+    .featured__controls ul{
+        padding-left: 0;
+    }
+
+}

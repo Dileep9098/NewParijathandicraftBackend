@@ -1,0 +1,38 @@
+/* .footer .quickLink .quickLinkborder{
+    border-bottom: 4px solid white;
+    
+} */
+
+.footer .quickLink  h6 {
+    position: relative;
+    padding-bottom: 10px; /* Adjust if you need space between the text and the line */
+}
+
+.footer .quickLink  h6::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30%;
+    height: 3px; /* Height of the line */
+    background-color: #fca4e4; /* Line color (black) */
+}
+
+.quickLink .contact-info ul li{
+    line-height: 1.8;
+    
+}
+.quickLink .contact-info ul li i{
+    font-size: 18px;
+}
+.sub-footer-contain{
+    font-family: "Raleway";
+    font-size: 14px;
+    letter-spacing: .05em;
+    text-align: center;
+    text-transform: uppercase;
+    
+}
+.sub-footer-contain p{
+    color: #fff;
+}

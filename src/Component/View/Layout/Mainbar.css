@@ -1,0 +1,197 @@
+/* Mainbar.css */
+
+
+/* Mobile search box hidden by default */
+.mobile-search {
+    display: none;
+    position: relative;
+    width: 0;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    
+}
+
+/* Style for input field */
+.mobile-search input {
+    padding: 10px 15px;
+    border-radius: 50px;
+    border: 2px solid #f3f3f3;
+    outline: none;
+    width: 180px; /* Default expanded width */
+    font-size: 14px;
+    transition: width 0.3s ease;
+    background-color: #f8f8f8;
+}
+
+/* Style for search icon */
+.mobile-search i {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Ensure the navbar stays at the top */
+/* .mobileMenuTop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+    background-color: white; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+body {
+    padding-top: 80px; 
+} */
+
+
+
+
+/* .mobileMenuTop {
+    position: sticky;
+    top: 0;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    z-index: 100;
+    height: 60px;
+    text-align: center;
+  } */
+  .AddHeaderColor{
+    background-image: linear-gradient(to right,#e8e9eb 0%,#e8e8e8 100%);
+    /* padding: 10px 0px ; */
+    /* margin-bottom: 15px; */
+}
+
+
+.mainMenuHeader{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 1000;
+    background-color:white;
+
+}
+
+.humberger__menu__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #002468;
+}
+
+.slicknav_hidden {
+    display: none;
+}
+
+.slicknav_nav {
+    display: block;
+}
+
+.sidebarNav {
+        background-image: linear-gradient(to right,#243949 0%,#496b86 100%);
+    padding: 10px;
+    display: flex;
+
+}
+/* .sidebarNav span{
+    color: white;
+    font-size: 30px;
+} */
+.sidebarNav #mobileSingLink{
+    color: white;
+    cursor: pointer;
+    width: 150px;
+    font-size: 16px;
+    font-weight: 600;
+
+}
+.sidebarNav img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;border: 2px solid white;
+    margin-left:56px ;
+   
+
+}
+.sidebarNav1{
+    padding: 10px;
+}
+
+
+/* Show search box only on mobile and make it appear smoothly */
+@media (max-width: 991px) {
+    .mobile-search {
+        display: block;
+        width: auto;
+        /* margin-bottom: 10px; */
+    }
+
+    /* No expansion on focus, set fixed width */
+    .mobile-search input {
+        width: 180px;
+<<<<<<< HEAD
+        padding: 10px 15px;
+=======
+        padding: 8px 15px;
+>>>>>>> 040025d (00.00.09)
+    }
+
+    /* Focus style just for color change */
+    .mobile-search input:focus {
+        border-color: #333;
+    }
+
+    .mobile-search input::placeholder {
+        color: #aaa;
+    }
+
+    .header__cart{
+        display: none;
+    }
+    .mainMenuHeader{
+        height: 80px;
+        top: -4px;
+    }
+    .mainMenuHeader1{
+        background-image: linear-gradient(to right,#243949 0%,#496b86 100%);
+        padding: 10px 0px ;
+        margin-bottom: 15px;
+    
+       
+    }
+    .header__logo {
+        padding: 0px;
+        color: #fff;
+        /* padding-top: 10px; */
+    }
+}
+
+/* Small screen - hamburger menu icon */
+.humberger__open i {
+    font-size: 24px;
+    color: #333;
+}
+
+.slicknav_open .dropdownIcon {
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.slicknav_open .dropdownIcon {
+    transform: rotate(90deg); /* Rotate 90 degrees */
+}
+<<<<<<< HEAD
+=======
+
+.mobileSearch{
+    margin-right: 14px;
+}
+>>>>>>> 040025d (00.00.09)
