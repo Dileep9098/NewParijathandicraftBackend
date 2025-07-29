@@ -390,7 +390,7 @@ export default function ProductSidebar(props) {
                                     {chunk.map((product, productIndex) => (
                                         <a href="#" key={productIndex} className="latest-product__item">
                                             <div className="latest-product__item__pic">
-                                                <img src={`${BASE_URL}/${product.ProductPictures[0]}`} alt={product.ProductName} />
+                                                <img src={product.ProductPictures[0].url} alt={product.ProductName} />
                                             </div>
                                             <div className="latest-product__item__text">
                                                 <h6>{product.ProductName.slice(0,50)}...</h6>

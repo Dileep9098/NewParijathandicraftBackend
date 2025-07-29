@@ -134,7 +134,7 @@ export default function CampaignSection() {
                         <div key={campaign._id} className="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                             <div className="compaign-banner-main">
                                 <div className="compaign-img">
-                                    <img src={`${BASE_URL}/${campaign?.file}`} alt={campaign.mainTitle} />
+                                    <img src={campaign?.file.url||`${BASE_URL}/${campaign?.file}`} alt={campaign.mainTitle} />
                                 </div>
                                 <div className="compaign-title">
                                     <h3>{campaign.mainTitle}</h3>

@@ -703,10 +703,13 @@ export default function Category() {
     }, [])
 
     const parentcolumns = [
+        
         { field: 'id', headerName: 'ID', },
         {
             field: 'avatar', headerName: 'Avatar', width: 150, renderCell: (params) => (
-                <Avatar alt={params.row.Name} src={`/image/category/${params.row.Image}`} />
+                
+                <Avatar alt={params.row.Name} src={`${params.row.Image}`} />
+               
             )
         },
 
@@ -721,15 +724,36 @@ export default function Category() {
             )
         }
     ]
-    const rows = (parentCategories || []).map((category, index) => ({
+    
+    // const rows = (parentCategories || []).map((category, index) => ({
+        
+    //     id: index + 1,
+    //     dataId: category._id,
+    //     Image: `${BASE_URL}/${category.file}`||category.file.url,
+    //     Name: category.Name,
+    //     createAt: category.createdAt ? format(new Date(category.createdAt), 'PPP') : 'N/A',
 
+    // }));
+
+    const rows = (parentCategories || []).map((category, index) => {
+    let imageUrl = '';
+
+    if (typeof category.file === 'string') {
+        imageUrl = `${BASE_URL}/${category.file}`;
+    } else if (category.file?.url) {
+        imageUrl = category.file.url;
+    } 
+
+    return {
         id: index + 1,
         dataId: category._id,
-        Image: category.file,
+        Image: imageUrl,
         Name: category.Name,
-        createAt: category.createdAt ? format(new Date(category.createdAt), 'PPP') : 'N/A',
-
-    }));
+        createAt: category.createdAt 
+            ? format(new Date(category.createdAt), 'PPP') 
+            : 'N/A',
+    };
+});
 
 
     const handleDelete = (id) => {
@@ -819,7 +843,7 @@ export default function Category() {
         { field: 'id', headerName: 'ID', },
         {
             field: 'avatar', headerName: 'Avatar', renderCell: (params) => (
-                <Avatar alt={params.row.Name} src={`/image/category/${params.row.Image}`} />
+                <Avatar alt={params.row.Name} src={`${params.row.Image}`} />
             )
         },
         { field: 'Name', headerName: 'Name', editable: true, width: 250 },
@@ -853,17 +877,41 @@ export default function Category() {
             )
         }
     ]
-    const childrows = (childCategories || []).map((category, index) => ({
+    // const childrows = (childCategories || []).map((category, index) => ({
 
+    //     id: index + 1,
+    //     dataId: category._id,
+    //     Image: category.file.url||`${BASE_URL}/${category.file}`,
+    //     Name: category.Name,
+    //     parentCategory: category.parentCategory ? category.parentCategory.Name : 'N/A', // Extracting name from parentCategory
+    //     IsActive: category.IsActive === "true" ? "Active" : "In Active",
+    //     createAt: category.CreatedOn ? format(new Date(category?.CreatedOn), 'PPP') : 'N/A',
+
+    // }));
+
+
+const childrows = (childCategories || []).map((category, index) => {
+    // Determine image URL
+    let imageUrl = '';
+    if (typeof category.file === 'string') {
+        imageUrl = `${BASE_URL}/${category.file}`;
+    } else if (category.file?.url) {
+        imageUrl = category.file.url;
+    } 
+
+    return {
         id: index + 1,
         dataId: category._id,
-        Image: category.file,
+        Image: imageUrl,
         Name: category.Name,
-        parentCategory: category.parentCategory ? category.parentCategory.Name : 'N/A', // Extracting name from parentCategory
+        parentCategory: category.parentCategory?.name || category.ParentCategoryName || 'N/A',
         IsActive: category.IsActive === "true" ? "Active" : "In Active",
-        createAt: category.CreatedOn ? format(new Date(category?.CreatedOn), 'PPP') : 'N/A',
+        createAt: category.CreatedOn 
+            ? format(new Date(category.CreatedOn), 'PPP') 
+            : 'N/A',
+    };
+});
 
-    }));
 
     const [childCategoryName, setChildCategoryName] = useState()
     const [parentCategoryChoose, setParentCategoryChoose] = useState()

@@ -236,7 +236,7 @@ export default function EditUserDetails() {
             setMobileNo(userInfo.mobileNo || "")
             setPhone(userInfo.phone || "")
 
-            setImage(userInfo.file || "")
+            setImage(userInfo.file.url ||userInfo.file|| "")
             setCityByPincode(userInfo.CityName || "")
             setEmailAddress(userInfo.email || "")
             setPostalCode(userInfo.PostalCode || "")

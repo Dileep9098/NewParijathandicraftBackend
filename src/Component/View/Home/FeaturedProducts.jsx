@@ -218,13 +218,13 @@ export default function FeaturedProducts(props) {
                 <div className="container">
                     <div className="row featured__filter">
                         {filteredProducts.slice(0, displayedProducts).map((item, ind) => (
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix" key={ind}>
+                            <div className="col-lg-3 col-md-4 col-sm-6 col-6 mix" key={ind}>
                                 <div className="featured__item">
                                     <div className="featured__item__pic">
                                         <img
-                                            src={`${BASE_URL}/${item?.ProductPictures[0]}`}
+                                            src={item?.ProductPictures[0].url||`${BASE_URL}/${item?.ProductPictures[0]}`}
                                             alt={item?.ProductName}
-                                            style={{ width: "100%", height: "100%" }}
+                                            style={{ width: "100%", height: "100%" ,  objectFit: "cover"}}
                                         />
                                         <ul className="featured__item__pic__hover">
                                             <li><Link to="#" onClick={(e) => {
@@ -260,7 +260,7 @@ export default function FeaturedProducts(props) {
                                         </ul>
                                     </div>
                                     <div className="featured__item__text">
-                                        <h6><Link to="#">{(item?.ProductName).slice(0, 30)}</Link></h6>
+                                        <h6><Link to="#">{(item?.ProductName).slice(0, 40)}</Link></h6>
                                         <h5>&#8377;{item?.Price} <sub><del>{item?.OldPrice}</del></sub></h5>
                                     </div>
                                 </div>

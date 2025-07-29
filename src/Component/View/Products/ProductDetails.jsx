@@ -379,7 +379,7 @@ export default function ProductDetails() {
 
             <section className="breadcrumb-section set-bg" style={{
                 backgroundImage: products?.ProductPictures && products.ProductPictures.length > 0
-                    ? `url('${BASE_URL}/${products.ProductPictures[0]}')`
+                    ? `url('${products.ProductPictures[0].url}')`
                     : 'url("/image/default.jpg")',
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
@@ -421,7 +421,7 @@ export default function ProductDetails() {
                                                     {chunk.map((product, productIndex) => (
                                                         <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`} key={productIndex} className="latest-product__item" >
                                                             <div className="latest-product__item__pic">
-                                                                <img src={`${BASE_URL}/${product.ProductPictures[0]}`} alt={product.ProductName} />
+                                                                <img src={product.ProductPictures[0].url} alt={product.ProductName} />
                                                             </div>
                                                             <div className="latest-product__item__text">
                                                                 <h6>{product.ProductName.slice(0, 50)}...</h6>
@@ -1101,9 +1101,9 @@ export default function ProductDetails() {
                                     <div className="col-lg-2 col-md-3 col-sm-6 col-6" key={ind}>
                                         <div className="product__item" >
                                             <Link to={`/product-details/${item._id}/${item.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(item.ProductName)}`} key={ind} className="latest-product__item" >
-                                                <div className="product__item__pic set-bg" data-setbg={item.imageUrl}>
+                                                <div className="product__item__pic set-bg" data-setbg={item?.ProductPictures[0].url}>
                                                     <img
-                                                        src={`${BASE_URL}/${item?.ProductPictures[0]}`}
+                                                        src={item?.ProductPictures[0].url}
                                                         alt={item?.ProductName}
                                                         style={{ width: "100%", height: "100%", }}
                                                     />

@@ -42,7 +42,7 @@ export default function HotDealBannerDashboard() {
         { field: 'id', headerName: 'ID', },
         {
             field: 'avatar', headerName: 'Avatar', renderCell: (params) => (
-                <Avatar alt={params.row.Name} src={`${BASE_URL}/${params.row.Image}`} />
+                <Avatar alt={params.row.Name} src={`${params.row.Image}`} />
             )
         },
         { field: 'topTitle', headerName: 'Top Title', editable: true },
@@ -83,7 +83,7 @@ export default function HotDealBannerDashboard() {
 
         id: index + 1,
         dataId: hotDealBanner._id,
-        Image: hotDealBanner.file,
+        Image: hotDealBanner.file.url||`${BASE_URL}/${hotDealBanner.file}` ,
         topTitle: hotDealBanner.topTitle,
         mainTitle: hotDealBanner.mainTitle,
         bottomTitle: hotDealBanner.bottomTitle,

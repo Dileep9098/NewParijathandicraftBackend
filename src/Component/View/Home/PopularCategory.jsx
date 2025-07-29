@@ -157,7 +157,7 @@ export default function PopularCategory() {
                                                 <div key={ind} className='popular-category2'>
                                                     <Link to={`/all-product/0/all-categories`}>
                                                         <img
-                                                            src={`${BASE_URL}/${category?.file}`}
+                                                            src={category?.file.url||`${BASE_URL}/${category?.file}`}
                                                             alt={category.name}
                                                             className="slider-image img-fluid circle-image"
                                                         />

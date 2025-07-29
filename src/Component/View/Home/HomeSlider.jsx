@@ -256,7 +256,7 @@ const HomeSlider = () => {
                                             className={`carousel-item ${ind === 0 ? "active" : ""}`}
                                             key={item._id}
                                         >
-                                            <img src={`${BASE_URL}/${item?.file}`} className="d-block w-100 home-slider-image"
+                                            <img src={item?.file.url||`${BASE_URL}/${item?.file}`} className="d-block w-100 home-slider-image"
                                                 alt={`Banner ${ind + 1}`} />
 
                                             {/* <img

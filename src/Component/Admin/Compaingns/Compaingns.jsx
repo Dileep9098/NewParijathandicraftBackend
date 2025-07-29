@@ -41,7 +41,7 @@ export default function Compaingns() {
         { field: 'id', headerName: 'ID', },
         {
             field: 'avatar', headerName: 'Avatar', renderCell: (params) => (
-                <Avatar alt={params.row.Name} src={`${BASE_URL}/${params.row.Image}`} />
+                <Avatar alt={params.row.Name} src={`${params.row.Image}`} />
             )
         },
         { field: 'mainTitle', headerName: 'Main Title', editable: true },
@@ -81,7 +81,7 @@ export default function Compaingns() {
 
         id: index + 1,
         dataId: compaigns._id,
-        Image: compaigns.file,
+        Image: compaigns.file.url||`${BASE_URL}/${compaigns.file}`,
         mainTitle: compaigns.mainTitle,
         body: compaigns.body,
         DiscountTitle: compaigns.DiscountTitle,

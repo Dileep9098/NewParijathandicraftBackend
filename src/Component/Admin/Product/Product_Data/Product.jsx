@@ -1158,7 +1158,7 @@ export default function Product() {
     const productRows = allProduct.map((product, index) => ({
         id: index + 1,
         dataId: product._id,
-        Image: product.ProductPictures && product.ProductPictures.length > 0 ? product.ProductPictures[0] : '',
+        Image: product.ProductPictures && product.ProductPictures.length > 0 ? product.ProductPictures[0].url : '',
         Name: product.ProductName || 'No Name',
         Price: product.Price || 0,
         StockQuantity: product.StockQuantity || 'N/A',
@@ -1266,6 +1266,8 @@ export default function Product() {
         }
     };
 
+console.log("All Product hai bhai",filteredRows);
+
     return (
         <>
             {isLoading ? (
@@ -1335,7 +1337,7 @@ export default function Product() {
                                             <TableCell>{product.id}</TableCell>
                                             <TableCell>
                                                 <img
-                                                    src={`${BASE_URL}/${product.Image}`}
+                                                    src={product.Image}
                                                     alt={""}
                                                     width="70"
                                                     height="70"
@@ -1343,6 +1345,7 @@ export default function Product() {
                                                 />
                                             </TableCell>
 
+                                           
                                             <TableCell>
                                                 <Tooltip title={product.Name} arrow>
                                                     <span className="admin-product-name">{product.Name.slice(0, 50)}</span>

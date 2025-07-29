@@ -456,7 +456,7 @@ export default function UserDashboard() {
                                                             </td>
                                                             <td>{user._id}</td>
                                                             <td>
-                                                                <img src={`${BASE_URL}/${user.file}`} alt="contact-img" title="user-img" className="rounded me-3" height="48" />
+                                                                <img src={user.file.url||`${BASE_URL}/${user.file}`} alt="contact-img" title="user-img" className="rounded me-3" height="48" />
                                                             </td>
                                                             <td>{user.name} {user.lname}</td>
                                                             <td>{user.email}</td>

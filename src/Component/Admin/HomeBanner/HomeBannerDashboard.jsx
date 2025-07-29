@@ -43,7 +43,7 @@ export default function HomeBannerDashboard() {
         { field: 'id', headerName: 'ID', },
         {
             field: 'avatar', headerName: 'Avatar', renderCell: (params) => (
-                <Avatar alt={params.row.Name} src={`${BASE_URL}/${params.row.Image}`} />
+                <Avatar alt={params.row.Name} src={`${params.row.Image}`} />
             )
         },
         { field: 'topTitle', headerName: 'Top Title', editable: true },
@@ -82,7 +82,7 @@ export default function HomeBannerDashboard() {
 
         id: index + 1,
         dataId: homeBanner._id,
-        Image: homeBanner.file,
+        Image: homeBanner.file.url||`${BASE_URL}/${homeBanner.file}`, // Ensure the URL is correct
         topTitle: homeBanner.topTitle,
         mainTitle: homeBanner.mainTitle,
         bottomTitle: homeBanner.bottomTitle,
@@ -500,7 +500,7 @@ export default function HomeBannerDashboard() {
                                         <label className="form-label">Image :</label>
 
                                         <input type="file" className="form-control" name='file' onChange={(e) => setFile(e.target.files[0])} />
-                                        {file && <img src={`${BASE_URL}/${file}`} alt="Current Banner Image" style={{ width: '80px', marginTop: '10px' }} />}
+                                        {file && <img src={file.url||`${BASE_URL}/${file}`} alt="Current Banner Image" style={{ width: '80px', marginTop: '10px' }} />}
                                     </div>
                                 </div>
 

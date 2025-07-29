@@ -126,7 +126,7 @@ export default function WishList() {
                                                         <div className="d-flex ">
                                                             <div className="CartImageProduct">    
                                                                  <Link to={`${Config.WEBSITE_IBASE_URL}product-details/${item?.ProductId}/${item?.ProductsCategoriesMappings ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(item?.ProductName)}`} >
-                                                                <img src={`${BASE_URL}/${item?.DefaultImage}`} alt="cart" className=" " />
+                                                                <img src={item?.DefaultImage.url||`${BASE_URL}/${item?.DefaultImage}`} alt="cart" className=" " />
                                                             </Link>
                                                             </div>
                                                             <div className="mx-4">

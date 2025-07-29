@@ -780,7 +780,7 @@ export default function SingleOrderDetails() {
                                                         <tr key={ind}>
                                                             <td className="text-center" style={{ width: "150px" }}>
                                                                 <img
-                                                                    src={`${BASE_URL}/${item.DefaultImage}`}
+                                                                    src={item.DefaultImage.url||`${BASE_URL}/${item.DefaultImage}`}
                                                                     alt={item.ProductName}
                                                                     width="150"
                                                                     height="100"

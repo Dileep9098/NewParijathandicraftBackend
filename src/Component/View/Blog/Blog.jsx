@@ -147,7 +147,7 @@ export default function Blog() {
                                         <div className="col-lg-6 col-md-6 col-sm-6" key={ind}>
                                             <div className="blog__item">
                                                 <div className="blog__item__pic">
-                                                    <img src={`${BASE_URL}/${item.file}`} alt={`${item.file}`} className='img-fluid' />
+                                                    <img src={item.file.url} alt={`${item.file}`} className='img-fluid' />
                                                 </div>
                                                 <div className="blog__item__text">
                                                     <ul>

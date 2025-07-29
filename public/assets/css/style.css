@@ -423,7 +423,7 @@ ol {
 }
 
 .header__menu {
-	padding: 24px 0;
+	padding: 15px 0;
 }
 
 .header__menu ul li {
@@ -504,7 +504,7 @@ ol {
 
 .header__cart {
 	text-align: right;
-	padding: 24px 0;
+	padding: 15px 0;
 }
 
 .header__cart ul {
@@ -3204,6 +3204,10 @@ ol {
 /* Wide Mobile = 480px */
 
 @media only screen and (max-width: 767px) {
+	.featured__item__text h6 a {
+	color: #252525;
+	font-size:12px;
+}
 	.hero__categories {
 		margin-bottom: 30px;
 	}
@@ -3514,4 +3518,26 @@ ol {
 	.blog__details__hero__text h2 {
 		font-size: 24px;
 	}
+}
+
+
+
+.custom-navbar {
+  width: 100%;
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.5); /* bg-[#ffffff] with 50% opacity */
+  backdrop-filter: blur(8px);                 /* backdrop-blur-md */
+  
+  transition: background-color 0.3s ease;
+}
+
+/* Responsive padding on sm: */
+@media (min-width: 640px) {
+  .custom-navbar {
+    padding-left: 1.5rem;  /* sm:px-6 */
+    padding-right: 1.5rem;
+  }
 }

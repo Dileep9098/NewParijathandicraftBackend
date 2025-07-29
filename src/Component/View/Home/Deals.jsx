@@ -378,7 +378,15 @@ export default function Deals() {
                             const { days, hours, minutes, seconds } = countdown[deal.id] || calculateTimeLeft(deal.AvailableStartDate, deal.AvailableEndDate);
                             return (
                                 <div key={index} className="col-lg-6 deal-col mb-2">
-                                    <div className="deal" style={{ backgroundImage: `url(${BASE_URL}/${deal?.file})` }}>
+                                    <div className="deal" 
+                                    // style={{ backgroundImage: `url(${BASE_URL}/${deal?.file})` }}
+                                     style={{
+                                                backgroundImage: `url('${typeof deal?.file === 'string'
+                                                        ? `${BASE_URL}/${deal.file}`
+                                                        : deal?.file?.url || ''
+                                                    }')`
+                                            }}
+                                    >
                                         <div className="deal-top">
                                             <h2 className="text-brand">{deal?.topTitle.slice(0, 30)}...</h2>
                                             <h5>{deal?.bottomTitle.slice(0, 120)}...</h5>

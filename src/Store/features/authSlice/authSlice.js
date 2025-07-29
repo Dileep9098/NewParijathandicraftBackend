@@ -202,7 +202,7 @@ export const updateUser=createAsyncThunk(
     
     async(myform)=>{
         try {
-            // debugger
+            debugger
             const response=await axiosInstance.put("/api/v1/me/update",myform,{withCredentials:true})
             return response.data
             

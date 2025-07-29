@@ -829,7 +829,7 @@ console.log("Filtered Active and New Products: ", ActiveAndMarkAsNEwProducts);
                                                                 component="img"
                                                                 height="200"
                                                                 // image={`/image/products/${product.ProductPictures[0]}`}
-                                                                image={`${BASE_URL}/${product.ProductPictures[0]}`}
+                                                                image={product.ProductPictures[0].url||`${BASE_URL}/${product.ProductPictures[0]}`}
                                                                 // ${BASE_URL}/${campaign?.file}
                                                                 alt="green iguana"
                                                                 className='newProductImage'
@@ -882,7 +882,7 @@ console.log("Filtered Active and New Products: ", ActiveAndMarkAsNEwProducts);
                                                             <CardMedia
                                                                 component="img"
                                                                 height="200"
-                                                                image={`${BASE_URL}/${product.ProductPictures[0]}`}
+                                                                image={product.ProductPictures[0].url||`${BASE_URL}/${product.ProductPictures[0]}`}
                                                                 alt="green iguana"
                                                                 className='newProductImage'
                                                             />
@@ -934,7 +934,7 @@ console.log("Filtered Active and New Products: ", ActiveAndMarkAsNEwProducts);
                                                             <CardMedia
                                                                 component="img"
                                                                 height="200"
-                                                                image={`${BASE_URL}/${product.ProductPictures[0]}`}
+                                                                image={product.ProductPictures[0].url||`${BASE_URL}/${product.ProductPictures[0]}`}
                                                                 alt="green iguana"
                                                                 className='newProductImage'
                                                             />
@@ -985,7 +985,7 @@ console.log("Filtered Active and New Products: ", ActiveAndMarkAsNEwProducts);
                                                             <CardMedia
                                                                 component="img"
                                                                 height="200"
-                                                                image={`${BASE_URL}/${product.ProductPictures[0]}`}
+                                                                image={product.ProductPictures[0].url||`${BASE_URL}/${product.ProductPictures[0]}`}
                                                                 alt="green iguana"
                                                                 className='newProductImage'
                                                             />

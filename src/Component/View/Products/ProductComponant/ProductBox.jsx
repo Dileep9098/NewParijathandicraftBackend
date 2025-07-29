@@ -1023,7 +1023,7 @@ export default function ProductBox({ product }) {
                                     <img
                                         key={index}
                                         className="card-img-top"
-                                        src={`${BASE_URL}/${img}`}
+                                        src={img.url}
                                         alt={`Product image ${index + 1}`}
                                     />
                                 ))}
@@ -1033,7 +1033,7 @@ export default function ProductBox({ product }) {
                     :
                     <div className="product-image">
                         <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`}>
-                            <img className="card-img-top" src={`${BASE_URL}/${product.ProductPictures}`} alt={`Product image`} />
+                            <img className="card-img-top" src={product.ProductPictures[0].url} alt={`Product image`} />
                         </Link>
                     </div>
             }

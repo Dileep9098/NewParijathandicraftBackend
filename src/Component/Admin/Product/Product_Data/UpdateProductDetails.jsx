@@ -167,8 +167,8 @@ export default function UpdateProductDetails() {
     return date.toISOString().split('T')[0];
   };
 
-  console.log("Discount kya hai bhai DiscountProductsMappings", DiscountProductsMappings);
-  console.log("Discount kya hai bhai allDiscountDetails", allDiscountDetails);
+  // console.log("Discount kya hai bhai DiscountProductsMappings", DiscountProductsMappings);
+  // console.log("Discount kya hai bhai allDiscountDetails", allDiscountDetails);
 
   // const discount = allDiscountDetails.find(discount => discount._id === DiscountProductsMappings);
 
@@ -190,14 +190,14 @@ export default function UpdateProductDetails() {
   const calculateFinalPrice = () => {
     const discount = allDiscountDetails.find(discount => discount._id === DiscountProductsMappings);
 
-    console.log("Discount details found:", discount);
+    // console.log("Discount details found:", discount);
 
     if (discount) {
 
       const discountAmount = (discount.DiscountValue / 100) * OldPrice;
       const finalPrice = OldPrice - discountAmount;
 
-      console.log("Bhai mere FinalPrice Kya hai:", finalPrice);
+      // console.log("Bhai mere FinalPrice Kya hai:", finalPrice);
 
       setPrice(finalPrice); // Set the final price
     } else {
@@ -303,7 +303,6 @@ export default function UpdateProductDetails() {
       setCustomProductSize(products.CustomProductSize || '');
       setPrice(products.Price || '');
       setIsTaxExempt(products.IsTaxExempt || false);
-      // debugger
       setIsShippingFree(products.IsShippingFree || true);
       setShippingCharge(products.ShippingCharge || '');
       setEstimatedShippingDays(products.EstimatedShippingDays || '');
@@ -325,8 +324,9 @@ export default function UpdateProductDetails() {
       setIsActive(products.IsActive || false);
       setDiscountProductsMappings(products.DiscountProductsMappings?._id || '');
       setProductDigitalFileMappings(products.ProductDigitalFileMappings?._id || '');
+      // debugger
 
-      setProductPictures(products.ProductPictures || []);
+      setProductPictures(products?.ProductPictures || []);
 
       setProductReviews(products.ProductReviews || '');
       setProductShippingMethodsMappings(products.ProductShippingMethodsMappings || '');
@@ -354,9 +354,12 @@ export default function UpdateProductDetails() {
       //   setProductsCategoriesMappings([]); 
       // }
 
-      console.log(products.ProductsCategoriesMappings);
+      // console.log(products.ProductsCategoriesMappings);
     }
   }, [products]);
+
+  // console.log("gvgh",products);
+  // console.log("skdfjdk",ProductPictures);
 
 
   const handleSubmitProduct = (e) => {
@@ -424,7 +427,7 @@ export default function UpdateProductDetails() {
       ProductsCategoriesMappings.forEach((category, index) => {
         // debugger
         myform.append("ProductsCategoriesMappings", category._id);
-        console.log(category)
+        // console.log(category)
       });
     }
 
@@ -435,7 +438,7 @@ export default function UpdateProductDetails() {
     // })
 
     dispatch(updateProduct({ id, myform })).then((data) => {
-      console.log(data.payload.success)
+      // console.log(data.payload.success)
       if (data.payload.success) {
         showSuccessMsg(data.payload.message)
         navigate("/admin/product")
@@ -950,7 +953,7 @@ export default function UpdateProductDetails() {
                                         <div key={index} className="dz-preview dz-file-preview">
                                           <div className="dz-image">
                                             {filePreview ? (
-                                              <img src={`${BASE_URL}/${filePreview}`} alt={`preview-${index}`} />
+                                              <img src={filePreview.url} alt={`preview-${index}`} />
                                             ) : (
                                               <span>No image available</span>
                                             )}

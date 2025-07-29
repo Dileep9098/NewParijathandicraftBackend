@@ -393,7 +393,7 @@ export default function SiteLogo() {
         { field: 'id', headerName: 'ID', width: 100 },
         {
             field: 'avatar', headerName: 'Avatar', width: 200, renderCell: (params) => (
-                <Avatar alt={params.row.Name} src={`${BASE_URL}/${params.row.Image}`} />
+                <Avatar alt={params.row.Name} src={`${params.row.Image}`} />
             )
         },
         { field: 'logoName', headerName: 'Logo Name', editable: true, width: 250 },
@@ -412,7 +412,7 @@ export default function SiteLogo() {
     const childrows = (allSiteLogo || []).map((compaigns, index) => ({
         id: index + 1,
         dataId: compaigns._id,
-        Image: compaigns.file,
+        Image: compaigns.file.url||`${BASE_URL}/${compaigns.file}`,
         logoName: compaigns.logoName,
         logoUrl: compaigns.logoUrl,
         createAt: compaigns.createdAt ? format(new Date(compaigns.createdAt), 'PPP') : 'N/A',

@@ -415,7 +415,7 @@ const OrderDetails = () => {
                                                             <tr key={product._id}>
                                                                 <td>{getOrderDetails?.OrderNumber}</td>
                                                                 <td>
-                                                                    <img src={`${BASE_URL}/${product.ProductPictures[0]}`} alt={product.ProductName} width="100" height="100" />
+                                                                    <img src={product.ProductPictures[0].url ||`${BASE_URL}/${product.ProductPictures[0]}`} alt={product.ProductName} width="100" height="100" />
                                                                 </td>
                                                                 <td>{product.ProductName.slice(0, 20)}...</td>
                                                                 <td>{product.VendorId}</td>
@@ -541,7 +541,7 @@ const OrderDetails = () => {
                                                                     <td>{index + 1}</td>
                                                                     <td className="text-center" style={{ width: "150px" }}>
                                                                         <img
-                                                                            src={`${BASE_URL}/${product.ProductPictures[0]}`}
+                                                                           src={product.ProductPictures[0].url ||`${BASE_URL}/${product.ProductPictures[0]}`}
                                                                             alt={product.ProductName}
                                                                             width="250"
                                                                             height="100"

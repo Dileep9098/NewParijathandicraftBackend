@@ -39,7 +39,7 @@ export default function BlogsDashboard() {
         { field: 'id', headerName: 'ID', },
         {
             field: 'avatar', headerName: 'Avatar', renderCell: (params) => (
-                <Avatar alt={params.row.Name} src={`${BASE_URL}/${params.row.Image}`} />
+                <Avatar alt={params.row.Name} src={`${params.row.Image}`} />
             )
         },
         // { field: 'MakeDate', headerName: 'MakeDate', editable: true },
@@ -78,7 +78,7 @@ export default function BlogsDashboard() {
 
         id: index + 1,
         dataId: blog._id,
-        Image: blog.file,
+        Image: blog.file.url,
         // MakeDate: blog.MakeDate,
         mainTitle: blog.mainTitle,
         // ProductReviews: blog.ProductReviews,
@@ -90,6 +90,7 @@ export default function BlogsDashboard() {
 
 
     const handleblogSubmit = async (e) => {
+        // debugger
         e.preventDefault();
         console.log(file)
         const myform = new FormData()
@@ -181,7 +182,7 @@ export default function BlogsDashboard() {
                 setDescriptions(blog.Descriptions)
                
                 setIsActive(blog.IsActive)
-                setFile(blog.file)
+                setFile(blog.file.url)
 
             }
 
@@ -432,7 +433,7 @@ export default function BlogsDashboard() {
                                     <div className="col-12">
                                         <label className="form-label">Image :</label>
                                         <input type="file" className="form-control" name='file' onChange={(e) => setFile(e.target.files[0])} />
-                                        {file && <img src={`${BASE_URL}/${file}`} alt="Current Blog Image" style={{ width: '80px', marginTop: '10px' }} />}
+                                        {file && <img src={`${file}`} alt="Current Blog Image" style={{ width: '80px', marginTop: '10px' }} />}
                                     </div>
                                 </div>
 

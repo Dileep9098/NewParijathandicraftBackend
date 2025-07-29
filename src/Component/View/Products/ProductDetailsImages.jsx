@@ -316,7 +316,7 @@ const ProductDetailsImages = (props) => {
             if (props.ProductDetailsImages && props.ProductDetailsImages.length > 0) {
                 arrayData = props.ProductDetailsImages.map((filename, i) => ({
                     alt: "product detail image " + i,
-                    src: `${BASE_URL}/${filename}`,
+                    src: filename.url ? filename.url : `${BASE_URL}/${filename}`, // Use the URL if available, otherwise construct it
                 }));
             }
             setImagesList(arrayData);

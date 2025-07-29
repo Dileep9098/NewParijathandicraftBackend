@@ -334,7 +334,7 @@ export default function Cart() {
                                                     <div className="col-lg-9 col-md-9 col-sm-12 col-12 mt-3 mb-3 productInfo">
                                                         <div className="d-flex ">
                                                             <div className="CartImageProduct">     <Link to="#" onClick={(e) => e.preventDefault()}>
-                                                                <img src={`${BASE_URL}/${item?.DefaultImage}`} alt="cart" className=" " />
+                                                                <img src={item?.DefaultImage.url||`${BASE_URL}/${item?.DefaultImage}`} alt="cart" className=" " />
                                                             </Link>
                                                             </div>
                                                             <div className="mx-4">

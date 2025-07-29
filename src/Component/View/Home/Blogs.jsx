@@ -52,7 +52,7 @@ function Blogs() {
                                 <div className="col-lg-3 col-md-4 col-sm-6 col-12 mb-2" key={ind}>
                                     <div className="blog__item">
                                         <div className="blog__item__pic">
-                                            <img src={`${BASE_URL}/${item.file}`} alt={`${item.file}`} />
+                                            <img src={item.file.url} alt={`${item.file}`} />
                                         </div>
                                         <div className="blog__item__text">
                                             <ul style={{ paddingLeft: "0" }}>

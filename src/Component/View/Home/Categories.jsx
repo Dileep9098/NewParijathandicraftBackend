@@ -162,16 +162,20 @@ export default function Categories() {
                     <div className="categories__slider owl-carousel" id="owlCarousel1">
                         {/* Check if childCategories is not null and has items */}
                         {childCategories && childCategories.length > 0 ? (
-                            childCategories.map((category,ind) => (
+                            childCategories.map((category, ind) => (
                                 category?.file ? (
-                                    <div className="col"  key={ind}> {/* Ensure each item has a unique key */}
+                                    <div className="col" key={ind}> {/* Ensure each item has a unique key */}
                                         <div
                                             className="categories__item set-bg"
-                                            data-setbg={`${BASE_URL}/${category?.file}`}
-                                            style={{ backgroundImage: `url('${BASE_URL}/${category?.file}')` }}
-
+                                            data-setbg={category?.file.url || `${BASE_URL}/${category?.file}`}
+                                            style={{
+                                                backgroundImage: `url('${typeof category?.file === 'string'
+                                                        ? `${BASE_URL}/${category.file}`
+                                                        : category?.file?.url || ''
+                                                    }')`
+                                            }}
                                         >
-                                              {/* <img src={`${BASE_URL}/${category?.file}`}  className="d-block w-100 home-slider-image"
+                                            {/* <img src={`${BASE_URL}/${category?.file}`}  className="d-block w-100 home-slider-image"
                                                 alt={`Banner ${ind + 1}`} /> */}
                                             <h5><Link to={`/all-product/0/all-categories`}>{category?.Name}</Link></h5>
                                         </div>

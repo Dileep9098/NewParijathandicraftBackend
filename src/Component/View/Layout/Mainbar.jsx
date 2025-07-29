@@ -810,7 +810,7 @@ export default function Mainbar() {
                                     <ul className='' style={{ listStyle: "none" }}>
                                         <li className="dropdown">
                                             <Link className="nav-link dropdown-toggle " data-bs-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                {user?.name || <img src={`${BASE_URL}/${user?.file}`} style={{ width: "25px", height: "25px", borderRadius: "50%" }} />}
+                                                { <img src={user?.file.url||`${BASE_URL}/${user?.file}`} style={{ width: "25px", height: "25px", borderRadius: "50%" }} /> ||user?.name }
 
                                             </Link>
                                             <div className="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
@@ -911,8 +911,8 @@ export default function Mainbar() {
 
                     <div className="sidebarNav1">
 
-                        <div id="mobile-menu-wrap">
-                            <div className="slicknav_menu">
+                        <div id="mobile-menu-wrap custom-navbar">
+                            <div className="slicknav_menu ">
                                 <Link to="#" aria-haspopup="true" role="button" tabIndex="0" className="slicknav_btn slicknav_collapsed" style={{ outline: "none" }}>
                                     <span className="slicknav_menutxt">MENU</span>
                                     <span className="slicknav_icon">
@@ -997,7 +997,7 @@ export default function Mainbar() {
                 </div>
             </div>
 
-            <div className="mainMenuHeader1 AddHeaderColor" ref={headerRef}>
+            <div className="mainMenuHeader1 custom-navbar AddHeaderColor" ref={headerRef}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-3">
@@ -1030,7 +1030,7 @@ export default function Mainbar() {
                                     <li className='me-3 fs-3'><Link to="/my-wishlist"><i className="fa fa-heart fs-3"></i> <span>{wishListCount ?? 0}</span></Link></li>
                                     <li className='fs-3'><Link to="/cart"><i className="fa fa-shopping-bag fs-3"></i> <span>{TotalCartItems ?? 0}</span></Link></li>
                                 </ul>
-                                <div className="header__cart__price">Item: <span>$150.00</span></div>
+                                {/* <div className="header__cart__price">Item: <span>$150.00</span></div> */}
                             </div>
                         </div>
                     </div>

@@ -77,7 +77,7 @@ export default function Topbar() {
                                         <ul style={{ listStyle: "none" }}>
                                             <li className="dropdown">
                                                 <Link className="nav-link dropdown-toggle " data-bs-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                    {<img src={`${BASE_URL}/${user?.file}`} style={{ width: "35px", height: "35px", borderRadius: "50%" }} />}
+                                                    {<img src={user?.file.url||`${BASE_URL}/${user?.file}`} style={{ width: "35px", height: "35px", borderRadius: "50%" }} />}
 
                                                 </Link>
                                                 <div className="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
