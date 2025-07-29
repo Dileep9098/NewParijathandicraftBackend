@@ -138,11 +138,7 @@ body {
     /* No expansion on focus, set fixed width */
     .mobile-search input {
         width: 180px;
-<<<<<<< HEAD
-        padding: 10px 15px;
-=======
         padding: 8px 15px;
->>>>>>> 040025d (00.00.09)
     }
 
     /* Focus style just for color change */
@@ -188,10 +184,7 @@ body {
 .slicknav_open .dropdownIcon {
     transform: rotate(90deg); /* Rotate 90 degrees */
 }
-<<<<<<< HEAD
-=======
 
 .mobileSearch{
     margin-right: 14px;
 }
->>>>>>> 040025d (00.00.09)

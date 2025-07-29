@@ -737,11 +737,7 @@ export default function App() {
             <Route path="/page-not-found" element={<PageNotFound/>} />
             <Route path="/password/reset/:token" element={<PasswordResset />} />
             <Route path="/password/update/"element={<UpdatePassword />} />
-<<<<<<< HEAD
            <Route
-=======
-                        <Route
->>>>>>> c125937 (01.00.01)
             path="/login"
             element={
               isAuthentication ? <Navigate to="/" /> : <Login />
@@ -752,11 +748,7 @@ export default function App() {
             element={
               isAuthentication ? <Navigate to="/" /> : <SignUp />
             }
-<<<<<<< HEAD
           />
-=======
-          /> 
->>>>>>> c125937 (01.00.01)
  
           {/* Admin Routes */}
           <Route
