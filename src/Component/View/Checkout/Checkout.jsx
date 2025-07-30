@@ -16,6 +16,7 @@ import axios from 'axios';
 import MetaData from '../Layout/MetaData';
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 export default function Checkout() {
@@ -788,8 +789,8 @@ export default function Checkout() {
                             phone: user.phone,
                             productinfo: productDetails,
                             firstname: user.name,
-                            surl: `http://localhost:5000/api/v1/pay-u-money-payment-success`,
-                            furl: `http://localhost:5000/api/v1/pay-u-money-payment-fail`,
+                            surl: `${API_URL}/api/v1/pay-u-money-payment-success`,
+                            furl: `${API_URL}/api/v1/pay-u-money-payment-fail`,
                             hash,
                             city: user.CityName,
                             state: user.StateName,
