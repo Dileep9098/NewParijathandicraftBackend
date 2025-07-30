@@ -90,6 +90,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const ProtectedRoute = ({ children, adminOnly = false, redirectTo = '/' }) => {
+  
   const { isAuthentication, user } = useSelector((state) => state.auth);
 
   // If the user is not authenticated, redirect to login

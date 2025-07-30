@@ -721,7 +721,7 @@ export default function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/my-wishlist" element={<WishList />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/profile" element={<Profile />} />
+            {/* <Route path="/profile" element={<Profile />} /> */}
             <Route path="/update-profile" element={<UpdateProfile />} />
             <Route path="/order-response" element={<PayUFailResponse />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -729,6 +729,7 @@ export default function App() {
             <Route path="/single-order-details/:id" element={<SingleOrderDetails />} />
 
             <Route path="/checkout" element={<ProtectedRoute> <Checkout /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute> <Profile /></ProtectedRoute>} />
 
           </Route>
 

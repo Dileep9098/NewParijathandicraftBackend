@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import "./checkout.css"
 import { makePriceRoundToTwoPlaces } from '../../../utils/ConversionHelper';
-import { showErrorMsg, showInfoMsg, showSuccessMsg } from '../../../utils/ShowMessage';
+import { showErrorMsg, showInfoMsg, showSuccessMsg, showWarningMsg } from '../../../utils/ShowMessage';
 import axiosInstance from '../../../ApiHendler/axiosInstance';
 import Config from '../../Comman/Config';
 import { error } from 'jquery';
@@ -20,7 +20,10 @@ const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 export default function Checkout() {
 
-    const { cartItems } = useSelector((state) => state.cart.cartItems);
+    // const { cartItems } = useSelector((state) => state.cart.cartItems);
+    let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+
     const { isLoading, user } = useSelector((state) => state.auth);
     const [checkPaymentMethod, setCheckPaymentMethod] = useState(null);
 
@@ -518,9 +521,13 @@ export default function Checkout() {
 
     //----------------- Test -------------- 
 
+    // debugger
+
     const handleCheckoutOnSubmit = async (e) => {
+       
+        // debugger
+      
         try {
-            // debugger
             e.preventDefault();
             setshowCardSectionStripe(false);
             setshowCardSectionPaypal(false);
@@ -538,6 +545,13 @@ export default function Checkout() {
             // myform.append("CountryName",CountryName)
             // myform.append("CityName",CityName)
             // myform.append("StateName",StateName)
+
+        //   debugger
+            if (phone==="undefined" ||!name || !lname || !email || !address || !shippingAddress || !PostalCode || !CountryName || !CityName || !StateName || !phone) {  
+                showWarningMsg("Please fill all the fields");
+                return;
+            }  
+
             const myform = {
                 name: name,
                 lname: lname,
@@ -548,6 +562,7 @@ export default function Checkout() {
                 CountryName: CountryName,
                 CityName: CityName,
                 StateName: StateName,
+                phone: phone,
             }
             // debugger
 
@@ -1287,7 +1302,7 @@ export default function Checkout() {
                                                 <p>Phone<span>*</span></p>
                                                 <input type="text" placeholder="Enter contact no" id="phone" name="phone"
                                                     onChange={(e) => setMobileNo(e.target.value)}
-                                                    value={phone} />
+                                                    value={phone}  required={true}/>
                                             </div>
                                         </div>
                                         <div className="col-lg-6">

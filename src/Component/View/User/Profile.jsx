@@ -31,7 +31,13 @@ export default function Profile() {
             <div className="profile-container">
                 <header className="profile-header">
                     <div className="profile-info d-flex">
-                        <img src={user?.file.url||`${BASE_URL}/${user?.file}`} alt="" className="me-2" style={{ width: "90px", height: "90px", borderRadius: "50%", border: "3px solid gray" }} />
+                        <img src={
+                                                            user?.file?.url
+                                                                ? user.file.url
+                                                                : user?.file
+                                                                    ? `${BASE_URL}/${user.file}`
+                                                                    : `${BASE_URL}/default-avatar.png` // fallback if file is missing
+                                                        }  alt="" className="me-2" style={{ width: "90px", height: "90px", borderRadius: "50%", border: "3px solid gray" }} />
                         <div className="mt-3">
                             <h1 className="username text-dark">{user ? user?.name : ""} {user?.lname}</h1>
                             <p className="location"> <i className="fa fa-map-marker  me-1"></i>

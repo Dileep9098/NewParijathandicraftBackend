@@ -235,11 +235,11 @@ const OrderDetails = () => {
                 setHeight(shippingDeatils.data.shippingDetails[0].height);
                 setshippingMethod(shippingDeatils.data.shippingDetails[0].shippingMethod);
                 setShippingStatus(shippingDeatils.data.shippingDetails[0].shippingStatus);
-                setdepartureDate(shippingDeatils.data.shippingDetails[0].departureDate);
-                setreceivedDate(shippingDeatils.data.shippingDetails[0].receivedDate);
-                setreceiverName(shippingDeatils.data.shippingDetails[0].receiverName);
-                setreceiverMobile(shippingDeatils.data.shippingDetails[0].receiverMobile);
-                setreceiverIdentityNo(shippingDeatils.data.shippingDetails[0].receiverIdentityNo);
+                setdepartureDate(shippingDeatils.data.shippingDetails[0].departure_date);
+                setreceivedDate(shippingDeatils.data.shippingDetails[0].receiver_date);
+                setreceiverName(shippingDeatils.data.shippingDetails[0].receiver_name);
+                setreceiverMobile(shippingDeatils.data.shippingDetails[0].receiver_mobile);
+                setreceiverIdentityNo(shippingDeatils.data.shippingDetails[0].receiver_indentity_no);
                 setTrackingNumber(shippingDeatils.data.shippingDetails[0].TrackingNumber);
             }
         };
@@ -626,7 +626,7 @@ const OrderDetails = () => {
                                                                     </td>
                                                                     <td>
                                                                         <input
-                                                                            type="date"
+                                                                            type={departureDate ? "text" : "date"}
                                                                             name="departureDate"
                                                                             id=""
                                                                             className="form-control"
@@ -643,7 +643,7 @@ const OrderDetails = () => {
                                                                     </td>
                                                                     <td>
                                                                         <input
-                                                                            type="date"
+                                                                            type={receivedDate ? "text" : "date"}
                                                                             name="receivedDate"
                                                                             id=""
                                                                             className="form-control"
@@ -670,24 +670,28 @@ const OrderDetails = () => {
                                                                         <input type="text" name="length" id="" className="form-control" style={{ borderColor: "#496b86", backgroundColor: "#f1f1f1", width: "180px", padding: "0.5rem",fontSize: "1rem",}}
                                                                             onChange={(e) => setLength(e.target.value)}
                                                                             value={length}
+                                                                             placeholder="eg. 0.5cm"
                                                                         />
                                                                     </td>
                                                                     <td>
                                                                         <input type="text" name="height" id="" className="form-control" style={{ borderColor: "#496b86", backgroundColor: "#f1f1f1", width: "180px", padding: "0.5rem",fontSize: "1rem",}}
-                                                                            onChange={(e) => setHeight(e.target.value)}
-                                                                            value={height}
+                                                                            onChange={(e) => setWeight(e.target.value)}
+                                                                            value={weight}
+                                                                            placeholder="eg. 0.50kg"
                                                                         />
                                                                     </td>
                                                                     <td>
                                                                         <input type="text" name="weight" id="" className="form-control" style={{ borderColor: "#496b86", backgroundColor: "#f1f1f1", width: "180px", padding: "0.5rem",fontSize: "1rem",}}
-                                                                            onChange={(e) => setWeight(e.target.value)}
-                                                                            value={weight}
+                                                                            onChange={(e) => setHeight(e.target.value)}
+                                                                            value={height}
+                                                                            placeholder="eg. 0.5cm"
                                                                         />
                                                                     </td>
                                                                     <td>
                                                                         <input type="text" name="breadth" id="" className="form-control" style={{ borderColor: "#496b86", backgroundColor: "#f1f1f1", width: "180px", padding: "0.5rem",fontSize: "1rem",}}
                                                                             onChange={(e) => setBreadth(e.target.value)}
                                                                             value={breadth}
+                                                                             placeholder="eg. 0.5cm"
                                                                         />
                                                                     </td>
                                                                     <td>

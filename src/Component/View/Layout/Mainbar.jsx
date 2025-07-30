@@ -810,7 +810,13 @@ export default function Mainbar() {
                                     <ul className='' style={{ listStyle: "none" }}>
                                         <li className="dropdown">
                                             <Link className="nav-link dropdown-toggle " data-bs-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                { <img src={user?.file.url||`${BASE_URL}/${user?.file}`} style={{ width: "25px", height: "25px", borderRadius: "50%" }} /> ||user?.name }
+                                                { <img src={
+                                                            user?.file?.url
+                                                                ? user.file.url
+                                                                : user?.file
+                                                                    ? `${BASE_URL}/${user.file}`
+                                                                    : `${BASE_URL}/default-avatar.png` // fallback if file is missing
+                                                        } style={{ width: "25px", height: "25px", borderRadius: "50%" }} /> ||user?.name }
 
                                             </Link>
                                             <div className="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
