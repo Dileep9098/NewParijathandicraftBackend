@@ -131,7 +131,7 @@ export default function Searchbar() {
                                                     category?.file ?
                                                         <li >
                                                             <Link to={`/all-product/${category?.Name}`} className="dropdown-item" href="#">
-                                                                <img src={`${BASE_URL}/${category?.file}`} alt={category?.Name} style={{ width: "50px", height: "50px", borderRadius: "50%", border: "2px solid gray", padding: "2px", marginLeft: "10px", marginRight: "20px" }} />
+                                                                <img src={category?.file.url||`${BASE_URL}/${category?.file}`} alt={category?.Name} style={{ width: "50px", height: "50px", borderRadius: "50%", border: "2px solid gray", padding: "2px", marginLeft: "10px", marginRight: "20px" }} />
                                                                 {category?.Name}
                                                             </Link>
                                                         </li>

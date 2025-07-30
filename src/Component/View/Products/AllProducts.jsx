@@ -2021,6 +2021,9 @@ export default function AllProducts() {
 
                             <div className="col-lg-9 col-md-7">
                                 {
+                                isLoading?<Loader /> :
+                                <>
+                                {
                                     !products || products.length === 0 ? (
                                         <div className="">
                                             <h3>
@@ -2067,6 +2070,8 @@ export default function AllProducts() {
 
                                     // <ProductBox />
                                 }
+                                </>
+                            }
 
                             </div>
 

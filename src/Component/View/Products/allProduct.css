@@ -438,6 +438,30 @@
         float: none;
     }
 }
+/* Make pagination scrollable on small screens */
+.pagination-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pagination {
+  flex-wrap: wrap; /* allow wrapping on small screens */
+  display: flex;
+  justify-content: center;
+}
+
+.page-item {
+  margin: 2px;
+}
+
+/* Optional: Reduce font size on smaller screens */
+@media (max-width: 576px) {
+  .pagination .page-link {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+}
+
 
 /* .pagination-product {
     display: flex;

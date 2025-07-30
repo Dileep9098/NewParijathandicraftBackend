@@ -14,8 +14,8 @@ const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 export default function Cart() {
     // Extract cartItems from state properly (adjusting based on Redux structure)
-    const { cartItems } = useSelector((state) => state.cart.cartItems);
-    // let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    // const { cartItems } = useSelector((state) => state.cart.cartItems);
+    let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
 
     // console.log("Cart data is: ", cartItems);

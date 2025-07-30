@@ -2936,6 +2936,82 @@ ol {
 	letter-spacing: 2px;
 }
 
+/*--------------------------------- WhataApp Icon -----------------------------*/
+
+
+
+/* 
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 28px;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: all 0.3s;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background-color: #128c7e;
+  color: white;
+}
+
+.whatsapp-float i {
+  line-height: 55px;
+} */
+
+
+.bhaman-call-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #25d366;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 28px;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: all 0.3s;
+  animation: pulse-ring 2s infinite;
+}
+
+.bhaman-call-icon:hover {
+  transform: scale(1.1);
+  background-color: #128c7e;
+  color: white;
+  cursor: pointer;
+}
+
+.bhaman-call-icon i {
+  line-height: 55px;
+  z-index: 2;
+  position: relative;
+}
+
+/* 🔥 Expanding fading ring */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+
 /*--------------------------------- Responsive Media Quaries -----------------------------*/
 
 @media only screen and (min-width: 1200px) {
@@ -3203,11 +3279,21 @@ ol {
 
 /* Wide Mobile = 480px */
 
+@media only screen and (max-width: 991px) {
+	
+.bhaman-call-icon {
+  bottom: 65px;
+  right: 20px;
+ 
+}
+
+}
 @media only screen and (max-width: 767px) {
 	.featured__item__text h6 a {
 	color: #252525;
 	font-size:12px;
 }
+
 	.hero__categories {
 		margin-bottom: 30px;
 	}

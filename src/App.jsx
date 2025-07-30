@@ -639,8 +639,8 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./Store/features/authSlice/authSlice";
-import { store, persistor } from "./Store/store"; // Import the store and persistor
-import { PersistGate } from 'redux-persist/integration/react'; // Import PersistGate
+import { store, persistor } from "./Store/store"; 
+import { PersistGate } from 'redux-persist/integration/react'; 
 import Layout from "./Component/View/Layout/Layout";
 import Home from "./Component/View/Home/Home";
 import AllProducts from "./Component/View/Products/AllProducts";
@@ -698,64 +698,64 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadUser()); // Dispatch loadUser to check authentication state
+    dispatch(loadUser()); 
   }, [dispatch]);
 
   if (isLoading) {
-    return <Loader />;  // Add a loading state if the user is loading
+    return <Loader />;  
   }
 
   return (
     <PersistGate loading={null} persistor={persistor}>  {/* Wrap your app with PersistGate */}
-      
+
       <BrowserRouter>
-{/*             ------ Temporary comment ------- */}
+        {/*             ------ Temporary comment ------- */}
         <Routes>
           {/* Public Routes */}
-         <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/all-product/:category_id/:category_name" element={<AllProducts />} />
-            
+
             <Route path="/product-details/:product_id/:category/:product_name" element={<ProductDetails />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/my-wishlist" element={<WishList/>} />
+            <Route path="/my-wishlist" element={<WishList />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/update-profile" element={<UpdateProfile />} />
-            <Route path="/order-response"  element={<PayUFailResponse/>} />
-            <Route path="/privacy-policy"  element={<PrivacyPolicy/>} />
-            <Route path="/order-history"  element={<OrderHistory/>} />
-            <Route path="/single-order-details/:id"  element={<SingleOrderDetails/>} />
+            <Route path="/order-response" element={<PayUFailResponse />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/order-history" element={<OrderHistory />} />
+            <Route path="/single-order-details/:id" element={<SingleOrderDetails />} />
 
-            <Route path="/checkout" element={<ProtectedRoute> <Checkout/></ProtectedRoute>} />
+            <Route path="/checkout" element={<ProtectedRoute> <Checkout /></ProtectedRoute>} />
 
-          </Route> 
+          </Route>
 
           {/* Authentication Routes */}
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/page-not-found" element={<PageNotFound/>} />
-            <Route path="/password/reset/:token" element={<PasswordResset />} />
-            <Route path="/password/update/"element={<UpdatePassword />} />
-           <Route
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/page-not-found" element={<PageNotFound />} />
+          <Route path="/password/reset/:token" element={<PasswordResset />} />
+          <Route path="/password/update/" element={<UpdatePassword />} />
+          <Route
             path="/login"
             element={
               isAuthentication ? <Navigate to="/" /> : <Login />
             }
-          /> 
-           <Route
+          />
+          <Route
             path="/sign-up"
             element={
               isAuthentication ? <Navigate to="/" /> : <SignUp />
             }
           />
- 
+
           {/* Admin Routes */}
           <Route
             path="/admin"
             element={
 
-                <AdminLayout />
+              <AdminLayout />
             }
           >
             <Route
@@ -770,16 +770,16 @@ export default function App() {
               path="product"
               element={
                 <ProtectedRoute adminOnly={true}>
-                  <Product/>
+                  <Product />
                 </ProtectedRoute>
               }
             />
             <Route
               path="add-product"
-              element={ <AddProduct />}/>
+              element={<AddProduct />} />
             <Route
               path="update-product/:id"
-              element={ <UpdateProductDetails />}/>
+              element={<UpdateProductDetails />} />
             {/* <Route
               path="add-product"
               element={
@@ -811,37 +811,37 @@ export default function App() {
               path="user-management"
               element={
 
-                  <UserDashboard/>
+                <UserDashboard />
               }
             />
-            <Route path="add-user"  element={<ProtectedRoute adminOnly={true}>  <AddUser/> </ProtectedRoute> }  />
-            <Route path="edit-user-details/:id"  element={<ProtectedRoute adminOnly={true}>  <EditUserDetails/> </ProtectedRoute> }  />
+            <Route path="add-user" element={<ProtectedRoute adminOnly={true}>  <AddUser /> </ProtectedRoute>} />
+            <Route path="edit-user-details/:id" element={<ProtectedRoute adminOnly={true}>  <EditUserDetails /> </ProtectedRoute>} />
 
             {/* ======================== + + Category Management + + ================== */}
-            <Route path="category" element={<Category/>}/>
+            <Route path="category" element={<Category />} />
 
             {/* ======================== + + Category Management + + ================== */}
-            <Route path="manufactures" element={<Manufactures/>}/>
-            <Route path="payments-method" element={<PaymentsMethods/>}/>
-            <Route path="discount-details" element={<DiscountDashboard/>}/>
-            <Route path="contact-details" element={<ContactDashboard/>}/>
-            <Route path="subscriber-details" element={<SubscriberDashboard/>}/>
-            <Route path="product-size" element={<ProductSize/>}/>
-            <Route path="tax" element={<Tax/>}/>
+            <Route path="manufactures" element={<Manufactures />} />
+            <Route path="payments-method" element={<PaymentsMethods />} />
+            <Route path="discount-details" element={<DiscountDashboard />} />
+            <Route path="contact-details" element={<ContactDashboard />} />
+            <Route path="subscriber-details" element={<SubscriberDashboard />} />
+            <Route path="product-size" element={<ProductSize />} />
+            <Route path="tax" element={<Tax />} />
 
 
             {/* ======================== + + Home Banner Management + + ================== */}
 
-            <Route path="homeBanner-dashboard" element={<HomeBannerDashboard/>}/>
-            <Route path="Blogs-dashboard" element={<BlogsDashboard/>}/>
-            <Route path="hot-deal-banner-dashboard" element={<HotDealBannerDashboard/>}/>
-            <Route path="compaingns-dashboard" element={<Compaingns/>}/>
-            <Route path="siteLogo-dashboard" element={<SiteLogo/>}/>
+            <Route path="homeBanner-dashboard" element={<HomeBannerDashboard />} />
+            <Route path="Blogs-dashboard" element={<BlogsDashboard />} />
+            <Route path="hot-deal-banner-dashboard" element={<HotDealBannerDashboard />} />
+            <Route path="compaingns-dashboard" element={<Compaingns />} />
+            <Route path="siteLogo-dashboard" element={<SiteLogo />} />
 
             {/* ======================== + + Home Banner Management + + ================== */}
 
-            <Route path="order-list"  element={<ProtectedRoute adminOnly={true}>  <OrderList/> </ProtectedRoute> }  />
-            <Route path="order-details/:id"  element={<ProtectedRoute adminOnly={true}>  <OrderDetails/> </ProtectedRoute> }  />
+            <Route path="order-list" element={<ProtectedRoute adminOnly={true}>  <OrderList /> </ProtectedRoute>} />
+            <Route path="order-details/:id" element={<ProtectedRoute adminOnly={true}>  <OrderDetails /> </ProtectedRoute>} />
 
 
 
@@ -871,6 +871,29 @@ export default function App() {
         theme="colored"
         transition={Zoom}
       />
+      {/* <a
+          href="https://api.whatsapp.com/send?phone=919953965913&text=Hi%20Team%2C%20I%20need%20help%20regarding%20SIM%20activation%20and%20packages.%20Can%20you%20assist%3F
+"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="whatsapp-float"
+        >
+          <i className="fab fa-whatsapp"></i>
+        </a> */}
+
+
+      <div className="bhaman-call-icon">
+        <a
+            href="https://api.whatsapp.com/send?phone=919953567333&text=Hi%20there!%20I%20recently%20came%20across%20Parijat%20Handicraft%20and%20I%20love%20your%20collection.%20Can%20you%20share%20more%20info%20about%20your%20products%20and%20how%20to%20place%20an%20order%3F"
+
+          target="_blank"
+          rel="noopener noreferrer"
+          className='text-light'
+        >
+          <i className="fab fa-whatsapp"></i>
+        </a>
+      </div>
+
     </PersistGate>
   );
 }
