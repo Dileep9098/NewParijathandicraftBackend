@@ -306,12 +306,12 @@
 //     );
 // }
 
-
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../ApiHendler/axiosInstance';
 import Config from '../../Comman/Config';
 import { showErrorMsg } from '../../../utils/ShowMessage';
 import { Link } from 'react-router-dom';
+
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 export default function Deals() {
@@ -321,7 +321,10 @@ export default function Deals() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosInstance.get(Config.END_POINT_LIST["GET_ALL_HOT_DEAL_BANNER"], { withCredentials: true });
+                const response = await axiosInstance.get(Config.END_POINT_LIST["GET_ALL_HOT_DEAL_BANNER"], {
+                    withCredentials: true,
+                });
+
                 if (response.data.success) {
                     setAllHotDealBanner(response.data.allHotDealBanner);
                 } else {
@@ -331,22 +334,25 @@ export default function Deals() {
                 showErrorMsg(error.response?.data?.message || 'Error fetching data');
             }
         };
+
         fetchData();
     }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCountdown((prevCountdown) => {
+            setCountdown(() => {
                 const updatedCountdown = {};
                 allHotDealBanner.forEach((deal) => {
-                    const { days, hours, minutes, seconds } = calculateTimeLeft(deal.AvailableStartDate, deal.AvailableEndDate);
-                    updatedCountdown[deal.id] = { days, hours, minutes, seconds };
+                    const { status, days, hours, minutes, seconds } = calculateTimeLeft(
+                        deal.AvailableStartDate,
+                        deal.AvailableEndDate
+                    );
+                    updatedCountdown[deal._id] = { status, days, hours, minutes, seconds };
                 });
                 return updatedCountdown;
             });
         }, 1000);
 
-        // Clean up the interval on component unmount
         return () => clearInterval(interval);
     }, [allHotDealBanner]);
 
@@ -355,16 +361,17 @@ export default function Deals() {
         const startTime = new Date(startDate).getTime();
         const endTime = new Date(endDate).getTime();
 
-        // If the deal has already started or ended, return the remaining time
-        const remainingTime = endTime - now;
-
-        if (remainingTime <= 0) return { days: "EXPIRED", hours: "", minutes: "", seconds: "" }; // If deal expired
-        else {
+        if (now < startTime) {
+            return { status: "COMING_SOON", days: "", hours: "", minutes: "", seconds: "" };
+        } else if (now > endTime) {
+            return { status: "EXPIRED", days: "", hours: "", minutes: "", seconds: "" };
+        } else {
+            const remainingTime = endTime - now;
             const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
             const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-            return { days, hours, minutes, seconds };
+            return { status: "ACTIVE", days, hours, minutes, seconds };
         }
     };
 
@@ -373,39 +380,50 @@ export default function Deals() {
             <div className="container">
                 <div className="row">
                     {allHotDealBanner
-                        .filter(deal => deal.IsActive === "true") // Show only active deals
+                        .filter(deal => deal.IsActive === "true")
                         .map((deal, index) => {
-                            const { days, hours, minutes, seconds } = countdown[deal.id] || calculateTimeLeft(deal.AvailableStartDate, deal.AvailableEndDate);
+                            const { status, days, hours, minutes, seconds } =
+                                countdown[deal._id] || calculateTimeLeft(deal.AvailableStartDate, deal.AvailableEndDate);
+
                             return (
                                 <div key={index} className="col-lg-6 deal-col mb-2">
-                                    <div className="deal" 
-                                    // style={{ backgroundImage: `url(${BASE_URL}/${deal?.file})` }}
-                                     style={{
-                                                backgroundImage: `url('${typeof deal?.file === 'string'
-                                                        ? `${BASE_URL}/${deal.file}`
-                                                        : deal?.file?.url || ''
-                                                    }')`
-                                            }}
+                                    <div
+                                        className="deal"
+                                        style={{
+                                            backgroundImage: `url('${typeof deal?.file === 'string'
+                                                ? `${BASE_URL}/${deal.file}`
+                                                : deal?.file?.url || ''
+                                                }')`,
+                                        }}
                                     >
                                         <div className="deal-top">
-                                            <h2 className="text-brand">{deal?.topTitle.slice(0, 30)}...</h2>
-                                            <h5>{deal?.bottomTitle.slice(0, 120)}...</h5>
+                                            <h2 className="text-brand">{deal?.topTitle?.slice(0, 30)}...</h2>
+                                            <h5>{deal?.bottomTitle?.slice(0, 120)}...</h5>
                                         </div>
                                         <div className="deal-content">
-                                            <h6 className="product-title">
+                                            <h6 className="product-title" style={{fontSize: '15px',color: 'blue', fontWeight: '600',fontStyle:"italic"}}>
                                                 <Link to={deal.dealMainUrl}>{deal.mainTitle}</Link>
                                             </h6>
                                         </div>
                                         <div className="hurryup linkToAmazon">
-                                            <Link to={deal.dealMainUrl}>
-
-                                                <span>{deal?.dealMainText}</span>
-                                            </Link>
+                                            {status === "ACTIVE" && (
+                                                <Link to={deal.dealMainUrl}>
+                                                    <span>{deal?.dealMainText}</span>
+                                                </Link>
+                                            )}
                                         </div>
                                         <div className="deal-bottom">
                                             <div className="deals-countdown">
-                                                {days === "EXPIRED" ? (
-                                                    <p>EXPIRED</p>
+                                                {status === "EXPIRED" ? (
+                                                    <div className="deal-status-badge best-badge expired-badge">
+                                                        <i className="ri-close-circle-line"></i>
+                                                        <span>Deal Expired</span>
+                                                    </div>
+                                                ) : status === "COMING_SOON" ? (
+                                                    <div className="deal-status-badge best-badge coming-soon-badge">
+                                                        <i className="ri-hourglass-line"></i>
+                                                        <span>Coming Soon</span>
+                                                    </div>
                                                 ) : (
                                                     <div className="row">
                                                         <div className="col-lg-2 col-md-2"></div>
@@ -429,9 +447,12 @@ export default function Deals() {
                                                     </div>
                                                 )}
                                             </div>
-                                            <Link to={deal.dealMainUrl} className="hover-up">
-                                                Shop Now <i className="ri-arrow-right-fill hover-arrow"></i>
-                                            </Link>
+
+                                            {status === "ACTIVE" && (
+                                                <Link to={deal.dealMainUrl} className="hover-up">
+                                                    Shop Now <i className="ri-arrow-right-fill hover-arrow"></i>
+                                                </Link>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
