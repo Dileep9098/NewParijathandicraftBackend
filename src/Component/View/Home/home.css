@@ -865,3 +865,67 @@ font-size: 24px;
     line-height: 30px;
     text-align: center;
   }
+
+
+
+
+
+
+/* Shimmer Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Glowing Pulse Animation */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* Common Badge Style */
+.best-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    background-size: 300% 300%;
+    background-position: center;
+    animation: shimmer 3s infinite linear, glow 2s infinite ease-in-out;
+    transition: transform 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+}
+
+/* Hover effect */
+.best-badge:hover {
+    transform: scale(1.05);
+}
+
+/* Icon */
+.best-badge i {
+    font-size: 20px;
+}
+
+/* Gradient Backgrounds */
+.expired-badge {
+    background-image: linear-gradient(135deg, #ff5f6d, #ffc371);
+}
+
+.coming-soon-badge {
+    background-image: linear-gradient(135deg, #00c6ff, #0072ff);
+}
