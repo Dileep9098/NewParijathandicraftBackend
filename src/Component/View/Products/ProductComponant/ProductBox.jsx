@@ -1033,7 +1033,17 @@ export default function ProductBox({ product }) {
                     :
                     <div className="product-image">
                         <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`}>
-                            <img className="card-img-top" src={product.ProductPictures[0].url} alt={`Product image`} />
+{/*                             <img className="card-img-top" src={product.ProductPictures[0].url} alt={`Product image`} /> */}
+                            <img
+  className="card-img-top"
+  src={
+    product?.ProductPictures?.[0]?.url ||
+    `${BASE_URL}/${product?.ProductPictures?.[0]}` || // only if you're supporting string paths
+    '/images/fallback.jpg' // fallback image path
+  }
+  alt="Product image"
+/>
+
                         </Link>
                     </div>
             }
