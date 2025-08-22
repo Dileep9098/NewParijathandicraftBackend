@@ -79,6 +79,7 @@ export default function UpdateProductDetails() {
   const [AvailableEndDate, setAvailableEndDate] = useState('')
   const [ProductSize, setProductSize] = useState('')
   const [Tax, setTax] = useState('')
+  const [InternationCharge, setInternationCharge] = useState('')
 
   const [ProductColor, setProductColor] = useState('')
   const [ProductWeight, setProductWeight] = useState('')
@@ -303,7 +304,7 @@ export default function UpdateProductDetails() {
       setCustomProductSize(products.CustomProductSize || '');
       setPrice(products.Price || '');
       setIsTaxExempt(products.IsTaxExempt || false);
-      setIsShippingFree(products.IsShippingFree || true);
+      setIsShippingFree(products.IsShippingFree || false);
       setShippingCharge(products.ShippingCharge || '');
       setEstimatedShippingDays(products.EstimatedShippingDays || '');
       setShowOnHomePage(products.ShowOnHomePage || '');
@@ -337,6 +338,7 @@ export default function UpdateProductDetails() {
 
       setProductSize(products.ProductSize?._id || '');
       setTax(products.Tax?._id || '');
+      setInternationCharge(products.InternationCharge || '');
 
       setProductColor(products.ProductColor || '');
       setProductWeight(products.ProductWeight || '');
@@ -411,6 +413,7 @@ export default function UpdateProductDetails() {
     myform.append("AvailableEndDate", AvailableEndDate);
     myform.append("ProductSize", ProductSize);
     myform.append("Tax", Tax);
+    myform.append("InternationCharge", InternationCharge);
     myform.append("CustomProductSize", CustomProductSize);
 
 
@@ -835,6 +838,23 @@ export default function UpdateProductDetails() {
                               </div>
                             </div>
                           </div>
+                          {ProductShippingMethodsMappings==="International Shipping" && (
+                            <div className="col-12">
+                              <div className="row mb-3">
+                                <label className="col-md-3 col-form-label" htmlFor="ShippingCharge">International Shipping Charge</label>
+                                <div className="col-md-9">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    id="ShippingCharge"
+                                    name="ShippingCharge"
+                                    onChange={(e) => setInternationCharge(e.target.value)}
+                                    value={InternationCharge}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
                           <div className="col-12">
                             <div className="row mb-3">
                               <label className="col-md-3 col-form-label" for="IsReturnAble">Return Able</label>

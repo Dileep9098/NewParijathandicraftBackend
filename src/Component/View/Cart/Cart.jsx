@@ -9,6 +9,7 @@ import Config from '../../Comman/Config';
 import { makePriceRoundToTwoPlaces, replaceWhiteSpacesWithDashSymbolInUrl } from '../../../utils/ConversionHelper';
 import { showErrorMsg, showSuccessMsg } from '../../../utils/ShowMessage';
 import { setCustomerCart, SetTotalCartItems } from '../../../Store/features/cartSlice/cartSlice';
+import AutoCurrencyPrice from '../../../CurrencyConvetor/AutoCurrencyPrice';
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 
@@ -23,11 +24,14 @@ export default function Cart() {
     const [copyurl, setCopyUrl] = useState(false);
     const [CartSubTotal, setCartSubTotal] = useState(0);
     const [ShippingSubTotal, setShippingSubTotal] = useState(0);
+    const [InternationalShippingSubTotal, setInsternationalShippingSubTotal] = useState(0);
     const [OrderTotal, setOrderTotal] = useState(0);
     const [TaxTotal, setTaxTotal] = useState(0)
     const popoverRef = useRef(null);
     const [CartChanged, setCartChangedStatusCount] = useState(0);
     const [popoverStates, setPopoverStates] = useState(0);
+    const { currency, rate } = useSelector((state) => state.currency);
+
 
     const dispatch = useDispatch()
 
@@ -236,6 +240,7 @@ export default function Cart() {
     const calculateItemTaxTotal = (item) => {
         return ((item.Price * ((item.Tax ? item.Tax : 0) / 100)) * (item.Quantity ?? 1)); // Tax % calculate
     };
+    
 
     const applyShippingCharge = (item, shippingChargeApplied) => {
         if (!shippingChargeApplied && item.ShippingCharges) {
@@ -249,6 +254,7 @@ export default function Cart() {
 
         let CartSubTotalDummy = 0;
         let ShippingSubTotalDummy = 0;
+        let InternationalShippingSubTotalDummy = 0;
         let OrderTotalDummy = 0;
         let TaxTotalDummy = 0;
 
@@ -262,7 +268,9 @@ export default function Cart() {
             console.log('Item Tax Total:', itemTaxTotal);
 
             CartSubTotalDummy += itemSubTotal;
-            TaxTotalDummy += itemTaxTotal; // ✅ Tax ko add kar diya
+            TaxTotalDummy += itemTaxTotal || 0; // ✅ Tax ko add kar diya
+            // InternationalShippingSubTotalDummy+=(item.InternationCharge==="undefine"?0:item.InternationChange)
+InternationalShippingSubTotalDummy += item?.InternationCharge || 0;
 
             const shipping = applyShippingCharge(item, shippingChargeApplied);
             console.log('Shipping Charge:', shipping.charge);
@@ -271,12 +279,13 @@ export default function Cart() {
         });
 
         // Order total me ab subtotal + tax bhi include hoga
-        OrderTotalDummy = CartSubTotalDummy + TaxTotalDummy;
+        OrderTotalDummy = CartSubTotalDummy + TaxTotalDummy+(currency==="USD"?InternationalShippingSubTotalDummy:0);
 
         console.log('Cart SubTotal:', CartSubTotalDummy);
         console.log('Tax SubTotal:', TaxTotalDummy);
         console.log('Shipping SubTotal:', ShippingSubTotalDummy);
         console.log('Order Total:', OrderTotalDummy);
+        console.log('Order InternationalShippingSubTotalDummy:', InternationalShippingSubTotalDummy);
 
         // Agar Order Total ₹500 se kam hai to ₹100 shipping charge add hoga
         if (OrderTotalDummy < 500) {
@@ -289,6 +298,7 @@ export default function Cart() {
         setCartSubTotal(makePriceRoundToTwoPlaces(CartSubTotalDummy));
         setTaxTotal(makePriceRoundToTwoPlaces(TaxTotalDummy)); // ✅ Tax total state me set kar diya
         setShippingSubTotal(makePriceRoundToTwoPlaces(ShippingSubTotalDummy));
+        setInsternationalShippingSubTotal(makePriceRoundToTwoPlaces(InternationalShippingSubTotalDummy));
         setOrderTotal(makePriceRoundToTwoPlaces(OrderTotalDummy));
     };
 
@@ -334,14 +344,14 @@ export default function Cart() {
                                                     <div className="col-lg-9 col-md-9 col-sm-12 col-12 mt-3 mb-3 productInfo">
                                                         <div className="d-flex ">
                                                             <div className="CartImageProduct">     <Link to="#" onClick={(e) => e.preventDefault()}>
-                                                                <img src={item?.DefaultImage.url||`${BASE_URL}/${item?.DefaultImage}`} alt="cart" className=" " />
+                                                                <img src={item?.DefaultImage.url || `${BASE_URL}/${item?.DefaultImage}`} alt="cart" className=" " />
                                                             </Link>
                                                             </div>
                                                             <div className="mx-4">
                                                                 <h4 className='product-name'>
                                                                     {item?.ProductName}</h4>
 
-                                                                <h5>&#8377; {item.Price} </h5>
+                                                                <h5><AutoCurrencyPrice Price={item.Price} /></h5>
                                                                 <span> {item.Quantity ? <span style={{ color: "green" }}>In Stock</span> : <span style={{ color: "red" }}>out of Stock</span>}</span> <br />
                                                                 <span>
                                                                     {item.IsShippingFree ? <span style={{ color: "green", fontWeight: "bolder" }}>Free Shipping</span>
@@ -472,13 +482,15 @@ export default function Cart() {
                                                                 let itemSubTotal = (item.Price != undefined && item.Price > 0 ? item.Price : "jg") * (item.Quantity)
                                                                 return (
                                                                     <div className="">
-                                                                        &#8377; {itemSubTotal.toFixed(2)}
+                                                                        {/* &#8377; {itemSubTotal.toFixed(2)} */}
+                                                                        <AutoCurrencyPrice Price={itemSubTotal} />
 
                                                                     </div>
                                                                 )
 
                                                             })}
-                                                            &#8377;   {(item.Price * item.Quantity).toFixed(2)}
+                                                            {/* &#8377;   {(item.Price * item.Quantity).toFixed(2)} */}
+                                                            <AutoCurrencyPrice Price={(item.Price * item.Quantity).toFixed(2)} />
                                                         </p>
 
                                                     </div>
@@ -497,25 +509,52 @@ export default function Cart() {
                                                         <tr>
                                                             <td>Subtotal:</td>
                                                             <td>
-                                                                <h3>&#8377; {CartSubTotal.toFixed(2)}</h3>
+                                                                <h3>
+                                                                    {/* &#8377; {CartSubTotal.toFixed(2)} */}
+                                                                    <AutoCurrencyPrice Price={CartSubTotal} />
+
+                                                                </h3>
                                                             </td>
                                                         </tr>
                                                         <tr>
+                                                            {/* <td>Shipping: </td>
+                                                            <td>
+                                                                <h3> 
+                                                                    <AutoCurrencyPrice Price={ShippingSubTotal} />
+                                                                    </h3>
+                                                            </td> */}
                                                             <td>Shipping: </td>
                                                             <td>
-                                                                <h3> &#8377; {ShippingSubTotal.toFixed(2)}</h3>
+                                                                <h3>
+                                                                    {
+                                                                        currency === "USD"  ? (
+                                                                            <AutoCurrencyPrice Price={InternationalShippingSubTotal} />
+                                                                        ) : (
+                                                                            <AutoCurrencyPrice Price={ShippingSubTotal} />
+                                                                        )
+                                                                    }
+                                                                </h3>
+
                                                             </td>
+
                                                         </tr>
                                                         <tr>
                                                             <td>Tax: </td>
                                                             <td>
-                                                                <h3>&#8377; {TaxTotal.toFixed(2)}</h3>
+                                                                {/* <h3>&#8377; {TaxTotal.toFixed(2)}</h3>
+                                                                 */}
+                                                                <h3>
+                                                                    <AutoCurrencyPrice Price={TaxTotal} />
+                                                                </h3>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>Total:</td>
                                                             <td>
-                                                                <h2> &#8377; {OrderTotal.toFixed(2)}</h2>
+                                                                {/* <h2> &#8377; {OrderTotal.toFixed(2)}</h2> */}
+                                                                <h2>
+                                                                    <AutoCurrencyPrice Price={OrderTotal} />
+                                                                </h2>
                                                             </td>
                                                         </tr>
                                                     </tfoot>

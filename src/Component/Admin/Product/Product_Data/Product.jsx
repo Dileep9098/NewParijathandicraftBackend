@@ -1110,10 +1110,11 @@ import Loader from '../../../View/Loader/Loader';
 import { Pagination } from '@mui/material';
 import './ProductTable.css';
 import { Tooltip } from '@mui/material'; // Import Tooltip
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct } from '../../../../Store/features/product/productSlice';
 import UploadIcon from '@mui/icons-material/Upload';  // Import the UploadIcon for Import button
 import DownloadIcon from '@mui/icons-material/Download';  // Import the DownloadIcon for Export button
+import { setCurrentPage } from '../../../../Store/features/paginationSlice/paginationSlice';
 
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
@@ -1122,11 +1123,14 @@ export default function Product() {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [file, setFile] = useState();
-    const [limit, setLimit] = useState(10);
+    // const [limit, setLimit] = useState(10);
     const [productCount, setProductCount] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedProductId, setSelectedProductId] = useState(null);
+
+    const {currentPage,limit}=useSelector((state)=>state.pagination)
+
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
@@ -1152,8 +1156,8 @@ export default function Product() {
     };
 
     useEffect(() => {
-        fetchData(page, limit);
-    }, [page, limit]);
+        fetchData(currentPage, limit);
+    }, [currentPage, limit]);
 
     const productRows = allProduct.map((product, index) => ({
         id: index + 1,
@@ -1395,10 +1399,17 @@ console.log("All Product hai bhai",filteredRows);
                     </TableContainer>
 
                     <div className="d-flex justify-content-center mt-4">
-                        <Pagination
+                        {/* <Pagination
                             count={Math.ceil(productCount / limit)}
                             page={page}
                             onChange={(event, value) => setPage(value)}
+                            color="primary"
+                            className="pagination"
+                        /> */}
+                        <Pagination
+                            count={Math.ceil(productCount / limit)}
+                            page={currentPage}
+                            onChange={(event, value) => dispatch(setCurrentPage(value))}
                             color="primary"
                             className="pagination"
                         />

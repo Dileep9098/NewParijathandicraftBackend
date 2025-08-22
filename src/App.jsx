@@ -689,7 +689,7 @@ import SingleOrderDetails from "./Component/View/Order/SingleOrderDetails";
 import EditUserDetails from "./Component/Admin/UserManagement/EditUserDetails";
 import PageNotFound from "./Component/View/PageNotFound/PageNotFound";
 import Tax from "./Component/Admin/Tax/Tax";
-
+import {fetchCurrency} from "./Store/features/currencySlice/currencySlice";
 
 
 // Main App component
@@ -699,6 +699,8 @@ export default function App() {
 
   useEffect(() => {
     dispatch(loadUser()); 
+    dispatch(fetchCurrency());
+
   }, [dispatch]);
 
   if (isLoading) {

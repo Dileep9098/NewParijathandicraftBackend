@@ -159,7 +159,7 @@ const adminUserSlice = createSlice({
     name: "adminUser",
     reducers: {
         clearError: (state) => {
-            state.error = null; // This will reset the error state
+            state.error = null; 
         }
     },
     extraReducers: (builder) => {

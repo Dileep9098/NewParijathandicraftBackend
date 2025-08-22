@@ -21,19 +21,20 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // default storage is localStorage
+import storage from 'redux-persist/lib/storage'; 
 import { combineReducers } from 'redux';
 import authReducer from './features/authSlice/authSlice';
 import adminUserReducer from './features/Admin/userSlice';
 import categoryReduce from './features/category/categorySlice';
 import productReduce from './features/product/productSlice';
 import cartReduce from './features/cartSlice/cartSlice';
-
+import currencyReducer from './features/currencySlice/currencySlice';
 // Persist configuration for redux-persist
+import paginationReducer from "./features/paginationSlice/paginationSlice"
 const persistConfig = {
   key: 'root',
-  storage,  // LocalStorage
-  whitelist: ['auth'],  // Persist only auth and cart reducers
+  storage,  
+  whitelist: ['auth'],  
 };
 
 // Combine all reducers
@@ -43,6 +44,9 @@ const rootReducer = combineReducers({
   category: categoryReduce,
   product: productReduce,
   cart: cartReduce,
+  currency: currencyReducer,
+  pagination:paginationReducer,
+
 });
 
 // Create persisted reducer

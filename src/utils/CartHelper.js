@@ -6,9 +6,10 @@ import { showErrorMsg, showInfoMsg, showSuccessMsg } from './ShowMessage';
 
 
 export const AddProductToCart = (
-    ProductId, Quantity, DefaultImage, Price, ProductName, IsShippingFree, ShippingCharge, OrderMaximumQuantity,Tax
+    ProductId, Quantity, DefaultImage, Price, ProductName, IsShippingFree, ShippingCharge, OrderMaximumQuantity,Tax,Sku,InternationCharge
 ) => {
     let cartItems = [];
+    
     try {
         // Retrieve cartItems from localStorage and parse it
         cartItems = JSON.parse(localStorage.getItem("cartItems"));
@@ -33,7 +34,9 @@ export const AddProductToCart = (
                 ShippingCharges: ShippingCharge,
                 IsShippingFree: IsShippingFree,
                 DefaultImage: DefaultImage,
-                OrderMaximumQuantity: OrderMaximumQuantity
+                OrderMaximumQuantity: OrderMaximumQuantity,
+                Sku:Sku,
+                InternationCharge:InternationCharge,
             });
 
             console.log(cartItems);
@@ -52,7 +55,7 @@ export const AddProductToCart = (
 };
 
 
-export const AddCustomerWishList = (ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity,StockQuantity,ProductPictures ,DiscountPrice,CouponCode) => {
+export const AddCustomerWishList = (ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity,StockQuantity,ProductPictures ,DiscountPrice,CouponCode,Sku,InternationCharge) => {
     let customerWishList = [];
     try {
         
@@ -78,7 +81,9 @@ export const AddCustomerWishList = (ProductId, ProductName, Price, IsShippingFre
                 DefaultImage: ProductPictures,
                 IsShippingFree:IsShippingFree,
                 OrderMaximumQuantity:OrderMaximumQuantity,
-                StockQuantity:StockQuantity
+                StockQuantity:StockQuantity,
+                Sku:Sku,
+                InternationCharge:InternationCharge,
 
             });
 

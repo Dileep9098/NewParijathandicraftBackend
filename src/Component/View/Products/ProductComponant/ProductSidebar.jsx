@@ -8,16 +8,19 @@ import ProductRatingStars from './ProductRatingStars';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../../../../Store/features/product/productSlice';
 import { showErrorMsg } from '../../../../utils/ShowMessage';
+import { useMemo } from 'react';
+import AutoCurrencyPrice from '../../../../CurrencyConvetor/AutoCurrencyPrice';
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 
 export default function ProductSidebar(props) {
-  
+
     const [isCategoryOpen, setIsCategoryOpen] = useState(true);
     const [isBrandOpen, setIsBrandOpen] = useState(false);
     const [isSizeOpen, setIsSizeOpen] = useState(false);
     const [isPriceOpen, setIsPriceOpen] = useState(false);
     const [isRattingOpen, setIsRattingOpen] = useState(false);
+    const { currency, rate } = useSelector((state) => state.currency);
 
     const [isPopularTagOpen, setIsPopularTagOpen] = useState(false);
     const navigate = useNavigate()
@@ -26,38 +29,66 @@ export default function ProductSidebar(props) {
     const [defaultCurrency, setDefaultCurrency] = useState(GetDefaultCurrencySymbol());
 
     const [radioChecked, setRadioChecked] = useState(null);
-    const [PriceValuesArray, setPriceValuesArray] = useState(
-        [
-            {
-                id: "10-100",
-                name: `${defaultCurrency}10 - ${defaultCurrency}100`
-            },
-            {
-                id: "100-200",
-                name: `${defaultCurrency}100 - ${defaultCurrency}200`
-            },
-            {
-                id: "200-300",
-                name: `${defaultCurrency}200 - ${defaultCurrency}300`
-            },
-            {
-                id: "300-400",
-                name: `${defaultCurrency}300 - ${defaultCurrency}400`
-            },
-            {
-                id: "400-500",
-                name: `${defaultCurrency}400 - ${defaultCurrency}500`
-            },
-            {
-                id: "500-600",
-                name: `${defaultCurrency}500 - ${defaultCurrency}600`
-            },
-            {
-                id: "600-1000000000",
-                name: `Above ${defaultCurrency}600`
+    // const [PriceValuesArray, setPriceValuesArray] = useState(
+    //     [
+    //         {
+    //             id: "10-100",
+    //             name: `${defaultCurrency}10 - ${defaultCurrency}100`
+    //         },
+    //         {
+    //             id: "100-200",
+    //             name: `${defaultCurrency}100 - ${defaultCurrency}200`
+    //         },
+    //         {
+    //             id: "200-300",
+    //             name: `${defaultCurrency}200 - ${defaultCurrency}300`
+    //         },
+    //         {
+    //             id: "300-400",
+    //             name: `${defaultCurrency}300 - ${defaultCurrency}400`
+    //         },
+    //         {
+    //             id: "400-500",
+    //             name: `${defaultCurrency}400 - ${defaultCurrency}500`
+    //         },
+    //         {
+    //             id: "500-600",
+    //             name: `${defaultCurrency}500 - ${defaultCurrency}600`
+    //         },
+    //         {
+    //             id: "600-1000000000",
+    //             name: `Above ${defaultCurrency}600`
+    //         }
+    //     ]
+    // );
+
+
+    const PriceValuesArray = useMemo(() => {
+        const ranges = [
+            [10, 100],
+            [100, 200],
+            [200, 300],
+            [300, 400],
+            [400, 500],
+            [500, 600],
+            [600, 1000000000],
+        ];
+
+        return ranges.map(([min, max]) => {
+            if (max === 1000000000) {
+                return {
+                    id: `${min}-${max}`,
+                    name: `Above ${currency === "USD" ? "$" : "₹"}${(min * rate).toFixed(0)}`
+                };
             }
-        ]
-    );
+            return {
+                id: `${min}-${max}`,
+                name: `${currency === "USD" ? "$" : "₹"}${(min * rate).toFixed(0)} - ${currency === "USD" ? "$" : "₹"}${(max * rate).toFixed(0)}`
+            };
+        });
+    }, [currency, rate]);
+
+
 
     const handleToggle = () => {
         setIsCategoryOpen(!isCategoryOpen);
@@ -127,9 +158,9 @@ export default function ProductSidebar(props) {
     }
 
 
-   
 
-    const activeProducts = Array.isArray(allLatestProduct) ? allLatestProduct.filter(product => product.IsActive ) : [];
+
+    const activeProducts = Array.isArray(allLatestProduct) ? allLatestProduct.filter(product => product.IsActive) : [];
     // console.log("Letest", activeProducts)
 
     const chunkProducts = (allLatestProduct, chunkSize) => {
@@ -142,7 +173,7 @@ export default function ProductSidebar(props) {
 
     // Split the active products into rows of 3 products each
     const productChunks = chunkProducts(activeProducts, 4);
- 
+
     useEffect(() => {
         // Initialize Owl Carousel when the component mounts or productChunks changes
         $('.latest-product__slider').owlCarousel({
@@ -165,13 +196,13 @@ export default function ProductSidebar(props) {
                 },
             },
         });
-    
+
         // Cleanup Owl Carousel on unmount
         return () => {
             $('.latest-product__slider').owlCarousel('destroy');
         };
     }, [productChunks]); // Add productChunks as a dependency
-    
+
 
     return (
         <>
@@ -214,7 +245,7 @@ export default function ProductSidebar(props) {
                                                 <span id='NotVailabel'>Not Available !</span>
                                             )
                                         ) : (
-                                            <p>Not Available</p> 
+                                            <p>Not Available</p>
                                         )
                                     }
                                 </div>
@@ -308,10 +339,10 @@ export default function ProductSidebar(props) {
                                             className="form-check-input"
                                             type="radio"
                                             id={`Price_${item.id}`}
-                                            checked={radioChecked === item.id} 
+                                            checked={radioChecked === item.id}
                                             onChange={(e) => {
                                                 props.setFilterValueInParent(e, item.id, "price");
-                                                setRadioChecked(item.id); 
+                                                setRadioChecked(item.id);
                                             }}
                                         />
                                         <label className="form-check-label" htmlFor={`Price_${item.id}`}>
@@ -378,9 +409,9 @@ export default function ProductSidebar(props) {
 
                 <div className="sidebar__item">
                     <div className="latest-product__text">
-                    <div className="letest-section-title">
+                        <div className="letest-section-title">
 
-                        <h4>Latest Products</h4>
+                            <h4>Latest Products</h4>
                         </div>
                         <div className="latest-product__slider owl-carousel">
                             {/* Loop through productChunks and render each chunk as a row */}
@@ -390,12 +421,20 @@ export default function ProductSidebar(props) {
                                     {chunk.map((product, productIndex) => (
                                         <a href="#" key={productIndex} className="latest-product__item">
                                             <div className="latest-product__item__pic">
-                                                <img src={product.ProductPictures[0].url} alt={product.ProductName} />
+                                                <img src={
+                                                                    product?.ProductPictures?.length
+                                                                        ? product.ProductPictures[0]?.url || `${BASE_URL}/${product.ProductPictures[0]}`
+                                                                        : 'fallback-image.jpg' // Replace with your fallback image
+                                                                }  alt={product.ProductName} />
                                             </div>
                                             <div className="latest-product__item__text">
-                                                <h6>{product.ProductName.slice(0,50)}...</h6>
+                                                <h6>{product.ProductName.slice(0, 50)}...</h6>
                                                 {/* <span>&#8377; {product.Price}</span> */}
-                                                <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span>
+                                                {/* <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span> */}
+                                                <span>
+                                                    <AutoCurrencyPrice Price={product.Price} />
+                                                    {product.OldPrice && <sub><del><AutoCurrencyPrice Price={product.OldPrice} /></del></sub>}
+                                                </span>
 
                                             </div>
                                         </a>
@@ -433,7 +472,7 @@ export default function ProductSidebar(props) {
 // import { getAllProducts } from '../../../../Store/features/product/productSlice';
 
 // export default function ProductSidebar(props) {
-  
+
 //     const [isCategoryOpen, setIsCategoryOpen] = useState(true);
 //     const [isBrandOpen, setIsBrandOpen] = useState(false);
 //     const [isSizeOpen, setIsSizeOpen] = useState(false);

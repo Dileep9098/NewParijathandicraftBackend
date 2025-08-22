@@ -648,6 +648,8 @@ import Config from '../../../Comman/Config';
 import { GetDefaultCurrencySymbol } from '../../../../utils/CommonHelper';
 import ProductRatingStars from './ProductRatingStars';
 import { showErrorMsg } from '../../../../utils/ShowMessage';
+import { useMemo } from 'react';
+import AutoCurrencyPrice from '../../../../CurrencyConvetor/AutoCurrencyPrice';
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 // export default function SortProductByFeatured({ setProductSearch, setSortByFilter, props.setFilterValueInParent }) {
@@ -662,40 +664,68 @@ export default function SortProductByFeatured(props) {
     const [defaultCurrency, setDefaultCurrency] = useState(GetDefaultCurrencySymbol());
     const [count, setCount] = useState(0)
     // console.log(count, "Count")
+    const { currency, rate } = useSelector((state) => state.currency);
 
     const [radioChecked, setRadioChecked] = useState(null);
-    const [PriceValuesArray, setPriceValuesArray] = useState(
-        [
-            {
-                id: "10-100",
-                name: `${defaultCurrency}10 - ${defaultCurrency}100`
-            },
-            {
-                id: "100-200",
-                name: `${defaultCurrency}100 - ${defaultCurrency}200`
-            },
-            {
-                id: "200-300",
-                name: `${defaultCurrency}200 - ${defaultCurrency}300`
-            },
-            {
-                id: "300-400",
-                name: `${defaultCurrency}300 - ${defaultCurrency}400`
-            },
-            {
-                id: "400-500",
-                name: `${defaultCurrency}400 - ${defaultCurrency}500`
-            },
-            {
-                id: "500-600",
-                name: `${defaultCurrency}500 - ${defaultCurrency}600`
-            },
-            {
-                id: "600-1000000000",
-                name: `Above ${defaultCurrency}600`
+    // const [PriceValuesArray, setPriceValuesArray] = useState(
+    //     [
+    //         {
+    //             id: "10-100",
+    //             name: `${defaultCurrency}10 - ${defaultCurrency}100`
+    //         },
+    //         {
+    //             id: "100-200",
+    //             name: `${defaultCurrency}100 - ${defaultCurrency}200`
+    //         },
+    //         {
+    //             id: "200-300",
+    //             name: `${defaultCurrency}200 - ${defaultCurrency}300`
+    //         },
+    //         {
+    //             id: "300-400",
+    //             name: `${defaultCurrency}300 - ${defaultCurrency}400`
+    //         },
+    //         {
+    //             id: "400-500",
+    //             name: `${defaultCurrency}400 - ${defaultCurrency}500`
+    //         },
+    //         {
+    //             id: "500-600",
+    //             name: `${defaultCurrency}500 - ${defaultCurrency}600`
+    //         },
+    //         {
+    //             id: "600-1000000000",
+    //             name: `Above ${defaultCurrency}600`
+    //         }
+    //     ]
+    // );
+
+
+    const PriceValuesArray = useMemo(() => {
+        const ranges = [
+            [10, 100],
+            [100, 200],
+            [200, 300],
+            [300, 400],
+            [400, 500],
+            [500, 600],
+            [600, 1000000000],
+        ];
+
+        return ranges.map(([min, max]) => {
+            if (max === 1000000000) {
+                return {
+                    id: `${min}-${max}`,
+                    name: `Above ${currency === "USD" ? "$" : "₹"}${(min * rate).toFixed(0)}`
+                };
             }
-        ]
-    );
+            return {
+                id: `${min}-${max}`,
+                name: `${currency === "USD" ? "$" : "₹"}${(min * rate).toFixed(0)} - ${currency === "USD" ? "$" : "₹"}${(max * rate).toFixed(0)}`
+            };
+        });
+    }, [currency, rate]);
+
 
     const [isCategoryOpen, setIsCategoryOpen] = useState(true);
     const [isBrandOpen, setIsBrandOpen] = useState(false);
@@ -841,7 +871,7 @@ export default function SortProductByFeatured(props) {
 
     }
 
-    const activeProducts = Array.isArray(allLatestProduct) ? allLatestProduct.filter(product => product.IsActive ) : [];
+    const activeProducts = Array.isArray(allLatestProduct) ? allLatestProduct.filter(product => product.IsActive) : [];
     // console.log("Letest", activeProducts)
 
     const chunkProducts = (allLatestProduct, chunkSize) => {
@@ -898,9 +928,9 @@ export default function SortProductByFeatured(props) {
 
     const handleChange = (event) => {
         const value = event.target.value;
-        setSelectedValue(value); 
+        setSelectedValue(value);
         if (props.setSortByFilter) {
-            props.setSortByFilter(value); 
+            props.setSortByFilter(value);
         }
     };
 
@@ -923,33 +953,33 @@ export default function SortProductByFeatured(props) {
                         </div>
                         <div className="offcanvas-body small">
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" onChange={(e)=>props.setNewArrivals(true)} />
+                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" onChange={(e) => props.setNewArrivals(true)} />
                                 <label className="form-check-label" htmlFor="exampleRadios1">
                                     New Arrivals
                                 </label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="Price ASC"  onChange={handleChange} />
+                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="Price ASC" onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="exampleRadios3">
                                     Price Low to High
                                 </label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="Price DESC"  onChange={handleChange} />
+                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="Price DESC" onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="exampleRadios4">
                                     Price High to Low
                                 </label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="Date ASC"  onChange={handleChange} />
+                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="Date ASC" onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="exampleRadios5">
-                                Date Ascending
+                                    Date Ascending
                                 </label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios6" value="Date DESC"  onChange={handleChange} />
+                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios6" value="Date DESC" onChange={handleChange} />
                                 <label className="form-check-label" htmlFor="exampleRadios6">
-                                Date Descending
+                                    Date Descending
                                 </label>
                             </div>
                         </div>
@@ -1228,13 +1258,20 @@ export default function SortProductByFeatured(props) {
                                                     {chunk.map((product, productIndex) => (
                                                         <a href="#" key={productIndex} className="latest-product__item">
                                                             <div className="latest-product__item__pic">
-                                                                <img src={product.ProductPictures[0].url} alt={product.ProductName} />
+                                                                <img src={
+                                                                    product?.ProductPictures?.length
+                                                                        ? product.ProductPictures[0]?.url || `${BASE_URL}/${product.ProductPictures[0]}`
+                                                                        : 'fallback-image.jpg' // Replace with your fallback image
+                                                                } alt={product.ProductName} />
                                                             </div>
                                                             <div className="latest-product__item__text">
                                                                 <h6>{product.ProductName.slice(0, 40)}...</h6>
                                                                 {/* <span>&#8377; {product.Price}</span> */}
-                                                                <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span>
-
+                                                                {/* <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span> */}
+                                                                <span>
+                                                                    <AutoCurrencyPrice Price={product.Price} />
+                                                                    {product.OldPrice && <sub><del><AutoCurrencyPrice Price={product.OldPrice} /></del></sub>}
+                                                                </span>
                                                             </div>
                                                         </a>
                                                     ))}

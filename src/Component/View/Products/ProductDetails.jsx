@@ -13,11 +13,14 @@ import { showErrorMsg, showInfoMsg, showWarningMsg } from '../../../utils/ShowMe
 import ProductRatingStars from './ProductComponant/ProductRatingStars';
 import { AddCustomerWishList, AddProductToCart } from '../../../utils/CartHelper';
 import { setCustomerCart, SetTotalCartItems } from '../../../Store/features/cartSlice/cartSlice';
+import AutoCurrencyPrice from '../../../CurrencyConvetor/AutoCurrencyPrice';
 
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 export default function ProductDetails() {
     const { isLoading, products } = useSelector((state) => state.product)
+    const { currency, rate } = useSelector((state) => state.currency);
+
     const [displayedProducts, setDisplayedProducts] = useState(10);
     const [ReviewerName, setReviewerName] = useState('');
     const [ReviewerEmail, setReviewerEmail] = useState('');
@@ -346,12 +349,14 @@ export default function ProductDetails() {
         let defaultImage = (products?.ProductPictures?.length > 0) ? products.ProductPictures[0] : '';
         let ProductName = products?.ProductName
         let Price = products?.Price
+        let Sku = products?.Sku
         let Tax = products?.Tax?.tax_rate
         let IsShippingFree = products?.IsShippingFree
         let ShippingCharge = products?.ShippingCharge
         let OrderMaximumQuantity = products?.OrderMaximumQuantity
+        let InternationCharge = products?.InternationCharge
 
-        let cartItems = AddProductToCart(ProductID, quentyProduct, defaultImage, Price, ProductName, IsShippingFree, ShippingCharge, OrderMaximumQuantity, Tax);
+        let cartItems = AddProductToCart(ProductID, quentyProduct, defaultImage, Price, ProductName, IsShippingFree, ShippingCharge, OrderMaximumQuantity, Tax, Sku,InternationCharge);
 
         dispatch(setCustomerCart(cartItems));
         dispatch(SetTotalCartItems(JSON.parse(cartItems).length));
@@ -366,9 +371,9 @@ export default function ProductDetails() {
         }
     }
 
-    const HandleAddToWishList = ({ ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode }) => {
+    const HandleAddToWishList = ({ ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode, Sku,InternationCharge }) => {
 
-        let customerWishList = AddCustomerWishList(ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode);
+        let customerWishList = AddCustomerWishList(ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode,InternationCharge);
         localStorage.setItem("customerWishList", customerWishList)
 
     };
@@ -421,12 +426,20 @@ export default function ProductDetails() {
                                                     {chunk.map((product, productIndex) => (
                                                         <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`} key={productIndex} className="latest-product__item" >
                                                             <div className="latest-product__item__pic">
-                                                                <img src={product.ProductPictures[0].url} alt={product.ProductName} />
+                                                                <img src={
+                                                                    product?.ProductPictures?.length
+                                                                        ? product.ProductPictures[0]?.url || `${BASE_URL}/${product.ProductPictures[0]}`
+                                                                        : 'fallback-image.jpg' // Replace with your fallback image
+                                                                } alt={product.ProductName} />
                                                             </div>
                                                             <div className="latest-product__item__text">
                                                                 <h6>{product.ProductName.slice(0, 50)}...</h6>
                                                                 {/* <span>&#8377; {product.Price}</span> */}
-                                                                <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span>
+                                                                {/* <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span> */}
+                                                                <span>
+                                                                    <AutoCurrencyPrice Price={product.Price} />
+                                                                    {product.OldPrice && <sub><del><AutoCurrencyPrice Price={product.OldPrice} /></del></sub>}
+                                                                </span>
 
                                                             </div>
                                                         </Link>
@@ -553,7 +566,13 @@ export default function ProductDetails() {
                         <div className="col-lg-5 col-md-5">
                             <div className="product__details__text">
                                 <h3>{products?.ProductName}</h3>
-                                <div className="product__details__price"><span>&#8377;{products?.Price} <sub><del>{products?.OldPrice}</del></sub></span></div>
+                                <div className="product__details__price">
+                                    {/* <span>&#8377;{products?.Price} <sub><del>{products?.OldPrice}</del></sub></span> */}
+                                    <span>
+                                        <AutoCurrencyPrice Price={products?.Price} />
+                                        {products?.OldPrice && <sub><del><AutoCurrencyPrice Price={products?.OldPrice} /></del></sub>}
+                                    </span>
+                                </div>
                                 <div className="product__details__rating">
                                     <i className="fa fa-star"></i>
                                     <i className="fa fa-star"></i>
@@ -608,10 +627,28 @@ export default function ProductDetails() {
                                         })()}</span></li>
                                         {/* <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li> */}
                                         <li><b>SKU</b> <span>{products?.Sku}</span></li>
-                                        {
+                                        {/* {
                                             products?.IsShippingFree ?
-                                                <li><b>Shipping Charge</b> <span> shipping. <samp>Free pickup today</samp></span></li>
-                                                : <li><b>Shipping Charge</b> <span> &#8377; {products?.ShippingCharge}</span></li>
+                                                <li><b>Shipping Charge</b> <span  className='text-green'> Free shipping</span></li>
+                                                : <li><b>Shipping Charge</b> <span><AutoCurrencyPrice Price={products?.ShippingCharge}/> </span></li>
+                                        } */}
+
+                                        {
+                                            currency === "USD" && products?.ProductShippingMethodsMappings === "International Shipping" ? (
+                                                <li>
+                                                    <b>Shipping Charge</b> <span><AutoCurrencyPrice Price={products?.InternationCharge||0} /></span>
+                                                </li>
+                                            ) : (
+                                                products?.IsShippingFree ? (
+                                                    <li>
+                                                        <b>Shipping Charge</b> <span className='text-green'>Free shipping</span>
+                                                    </li>
+                                                ) : (
+                                                    <li>
+                                                        <b>Shipping Charge</b> <span><AutoCurrencyPrice Price={products?.ShippingCharge} /></span>
+                                                    </li>
+                                                )
+                                            )
                                         }
 
                                     </ul>
@@ -752,7 +789,7 @@ export default function ProductDetails() {
                                     </div>
                                     <div className="singleProductWishList">
 
-                                        <Link onClick={(e) => { e.preventDefault(); HandleAddToWishList({ ProductId: products._id, ProductName: products.ProductName, Price: products.Price, IsShippingFree: products.IsShippingFree, ShippingCharge: products.ShippingCharge, OrderMaximumQuantity: products.OrderMaximumQuantity, StockQuantity: products.StockQuantity, ProductPictures: products.ProductPictures[0], DiscountPrice: products.DiscountProductsMappings.DiscountValue, CouponCode: products.DiscountProductsMappings.couponCode, }) }}>
+                                        <Link onClick={(e) => { e.preventDefault(); HandleAddToWishList({ ProductId: products._id, ProductName: products.ProductName, Price: products.Price, IsShippingFree: products.IsShippingFree, ShippingCharge: products.ShippingCharge, OrderMaximumQuantity: products.OrderMaximumQuantity, StockQuantity: products.StockQuantity, ProductPictures: products.ProductPictures[0], DiscountPrice: products.DiscountProductsMappings.DiscountValue, CouponCode: products.DiscountProductsMappings.couponCode, Sku: products.Sku }) }}>
                                             <i className="ri-heart-fill me-1"></i>Add to Wishlist
 
                                         </Link>
@@ -1101,9 +1138,17 @@ export default function ProductDetails() {
                                     <div className="col-lg-2 col-md-3 col-sm-6 col-6" key={ind}>
                                         <div className="product__item" >
                                             <Link to={`/product-details/${item._id}/${item.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(item.ProductName)}`} key={ind} className="latest-product__item" >
-                                                <div className="product__item__pic set-bg" data-setbg={item?.ProductPictures[0].url}>
+                                                <div className="product__item__pic set-bg" data-setbg={
+                                                    item?.ProductPictures?.length
+                                                        ? item.ProductPictures[0]?.url || `${BASE_URL}/${item.ProductPictures[0]}`
+                                                        : 'fallback-image.jpg' // Replace with your fallback image
+                                                }>
                                                     <img
-                                                        src={item?.ProductPictures[0].url}
+                                                        src={
+                                                            item?.ProductPictures?.length
+                                                                ? item.ProductPictures[0]?.url || `${BASE_URL}/${item.ProductPictures[0]}`
+                                                                : 'fallback-image.jpg' // Replace with your fallback image
+                                                        }
                                                         alt={item?.ProductName}
                                                         style={{ width: "100%", height: "100%", }}
                                                     />
@@ -1115,7 +1160,7 @@ export default function ProductDetails() {
                                                 </div>
                                                 <div className="product__item__text">
                                                     <h6><a href="#">{item.ProductName.slice(0, 80)}...</a></h6>
-                                                    <h5>&#8377; {item.Price}</h5>
+                                                    <h5><AutoCurrencyPrice Price={item.Price} /></h5>
                                                 </div>
                                             </Link>
                                         </div>

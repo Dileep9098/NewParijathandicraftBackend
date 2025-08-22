@@ -951,6 +951,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CachedIcon from '@mui/icons-material/Cached';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { AddCustomerWishList } from '../../../../utils/CartHelper';
+import AutoCurrencyPrice from '../../../../CurrencyConvetor/AutoCurrencyPrice';
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 
@@ -959,7 +960,7 @@ export default function ProductBox({ product }) {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768); 
+            setIsMobile(window.innerWidth <= 768);
         };
 
         window.addEventListener('resize', handleResize);
@@ -967,7 +968,7 @@ export default function ProductBox({ product }) {
         handleResize();
 
         return () => {
-            window.removeEventListener('resize', handleResize); 
+            window.removeEventListener('resize', handleResize);
         };
     }, []);
 
@@ -1005,12 +1006,12 @@ export default function ProductBox({ product }) {
     };
 
 
-     const HandleAddToWishList = ({ ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode }) => {
-    
-            let customerWishList = AddCustomerWishList(ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode);
-            localStorage.setItem("customerWishList", customerWishList)
-    
-        };
+    const HandleAddToWishList = ({ ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode }) => {
+
+        let customerWishList = AddCustomerWishList(ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode);
+        localStorage.setItem("customerWishList", customerWishList)
+
+    };
 
     return (
         <div className="card custom-card">
@@ -1033,29 +1034,33 @@ export default function ProductBox({ product }) {
                     :
                     <div className="product-image">
                         <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`}>
-{/*                             <img className="card-img-top" src={product.ProductPictures[0].url} alt={`Product image`} /> */}
+                            {/*                             <img className="card-img-top" src={product.ProductPictures[0].url} alt={`Product image`} /> */}
                             <img
-  className="card-img-top"
-  src={
-    product?.ProductPictures?.[0]?.url ||
-    `${BASE_URL}/${product?.ProductPictures?.[0]}` || // only if you're supporting string paths
-    '/images/fallback.jpg' // fallback image path
-  }
-  alt="Product image"
-/>
+                                className="card-img-top"
+                                src={
+                                    product?.ProductPictures?.[0]?.url ||
+                                    `${BASE_URL}/${product?.ProductPictures?.[0]}` || // only if you're supporting string paths
+                                    '/images/fallback.jpg' // fallback image path
+                                }
+                                alt="Product image"
+                            />
 
                         </Link>
                     </div>
             }
             <div className="card-body">
                 <h5 className="card-title">
-                <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`}>  {product.ProductName.slice(0, isMobile ? 45 : 75)}...</Link>
+                    <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`}>  {product.ProductName.slice(0, isMobile ? 45 : 75)}...</Link>
                 </h5>
                 <div className="card-price-show">
 
                     <ProductRatingStars Rating={product?.Rating == 0 || product.Rating == null ? 5 : product.Rating} />
                     <p className="product-price">
-                        <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span>
+                        {/* <span>&#8377;{product.Price} <sub><del>{product.OldPrice}</del></sub></span> */}
+                        <span>
+                            <AutoCurrencyPrice Price={product.Price} />
+                            {product.OldPrice && <sub><del><AutoCurrencyPrice Price={product.OldPrice} /></del></sub>}      
+                        </span>
                     </p>
                 </div>
 
@@ -1063,25 +1068,25 @@ export default function ProductBox({ product }) {
             <div className="product-hover-icons">
                 {/* <i className="ri-shopping-cart-fill hover-icon cart-icon"></i> 
                 <i className="ri-heart-fill hover-icon wishlist-icon"></i>   */}
-                <Tooltip title="Add to Card"  placement="left">
+                <Tooltip title="Add to Card" placement="left">
                     <IconButton>
-                    <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`} className='hover-icon-link'> <ShopIcon className='hover-icon' /></Link>
+                        <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`} className='hover-icon-link'> <ShopIcon className='hover-icon' /></Link>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title="Add to Wishlist"  placement="left">
+                <Tooltip title="Add to Wishlist" placement="left">
                     <IconButton>
-                       <Link to="#"  onClick={(e) => { e.preventDefault(); HandleAddToWishList({ ProductId: product._id, ProductName: product.ProductName, Price: product.Price, IsShippingFree: product.IsShippingFree, ShippingCharge: product.ShippingCharge, OrderMaximumQuantity: product.OrderMaximumQuantity, StockQuantity: product.StockQuantity, ProductPictures: product.ProductPictures[0], DiscountPrice: product.DiscountProductsMappings.DiscountValue, CouponCode: product.DiscountProductsMappings.couponCode, })}}
-                         className='hover-icon-link'> <FavoriteIcon className='hover-icon' /></Link>
+                        <Link to="#" onClick={(e) => { e.preventDefault(); HandleAddToWishList({ ProductId: product._id, ProductName: product.ProductName, Price: product.Price, IsShippingFree: product.IsShippingFree, ShippingCharge: product.ShippingCharge, OrderMaximumQuantity: product.OrderMaximumQuantity, StockQuantity: product.StockQuantity, ProductPictures: product.ProductPictures[0], DiscountPrice: product.DiscountProductsMappings.DiscountValue, CouponCode: product.DiscountProductsMappings.couponCode, }) }}
+                            className='hover-icon-link'> <FavoriteIcon className='hover-icon' /></Link>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title="Quick View"  placement="left">
+                <Tooltip title="Quick View" placement="left">
                     <IconButton>
-                    <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`} className='hover-icon-link'> <VisibilityIcon className='hover-icon' /></Link>
+                        <Link to={`/product-details/${product._id}/${product.ProductsCategoriesMappings.map((category) => replaceWhiteSpacesWithDashSymbolInUrl(category.Name)).join('-') ?? "shop"}/${replaceWhiteSpacesWithDashSymbolInUrl(product.ProductName)}`} className='hover-icon-link'> <VisibilityIcon className='hover-icon' /></Link>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title="Compare"  placement="left">
+                <Tooltip title="Compare" placement="left">
                     <IconButton>
-                    <Link to="/add-to-wishlist" className='hover-icon-link'> <CachedIcon className='hover-icon' /></Link>
+                        <Link to="/add-to-wishlist" className='hover-icon-link'> <CachedIcon className='hover-icon' /></Link>
                     </IconButton>
                 </Tooltip>
                 {/* <i className="ri-align-justify hover-icon compare-icon"></i>    */}

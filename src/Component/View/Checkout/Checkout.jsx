@@ -14,6 +14,7 @@ import Loader from '../Loader/Loader';
 import { setCustomerCart, SetTotalCartItems } from '../../../Store/features/cartSlice/cartSlice';
 import axios from 'axios';
 import MetaData from '../Layout/MetaData';
+import AutoCurrencyPrice from '../../../CurrencyConvetor/AutoCurrencyPrice';
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -26,6 +27,8 @@ export default function Checkout() {
 
 
     const { isLoading, user } = useSelector((state) => state.auth);
+    const { currency, rate } = useSelector((state) => state.currency);
+
     const [checkPaymentMethod, setCheckPaymentMethod] = useState(null);
 
     const [OrderNote, setOrderNote] = useState('');
@@ -34,6 +37,8 @@ export default function Checkout() {
     const [showCardSectionPaypal, setshowCardSectionPaypal] = useState(false);
     const [CartSubTotal, setCartSubTotal] = useState(0);
     const [ShippingSubTotal, setShippingSubTotal] = useState(0);
+    const [InternationalShippingSubTotal, setInsternationalShippingSubTotal] = useState(0);
+
     const [OrderTotal, setOrderTotal] = useState(0);
     const [TaxTotal, setTaxTotal] = useState(0)
 
@@ -248,71 +253,71 @@ export default function Checkout() {
 
 
 
-    // const GetCouponCodeInfo = async () => {
-    //     // debugger
-    //     if (IsCouponCodeApplied) {
-    //         showInfoMsg('Coupon code is already applied!');
-    //         return false;
-    //     }
+    const GetCouponCodeInfo = async () => {
+        // debugger
+        if (IsCouponCodeApplied) {
+            showInfoMsg('Coupon code is already applied!');
+            return false;
+        }
 
-    //     const paramCoupon = {
-    //         CouponCode: CouponCode,
-    //         cartJsonData: cartItems,
+        const paramCoupon = {
+            CouponCode: CouponCode,
+            cartJsonData: cartItems,
 
-    //     };
+        };
 
-    //     try {
-    //         const couponResponse = await axiosInstance.post(Config.END_POINT_LIST["GET_COUPON_CODE_DISCOUNT"], paramCoupon, { withCredentials: true });
-    //         console.log(couponResponse);
+        try {
+            const couponResponse = await axiosInstance.post(Config.END_POINT_LIST["GET_COUPON_CODE_DISCOUNT"], paramCoupon, { withCredentials: true });
+            console.log(couponResponse);
 
-    //         if (couponResponse && couponResponse.data) {
-    //             let couponData = couponResponse.data.products[0];  // Accessing the first product in the array
-    //             console.log(couponData);
-    //             debugger
-    //             // setafterApplyCouponData(couponResponse.data)
+            if (couponResponse && couponResponse.data) {
+                let couponData = couponResponse.data.products[0];  // Accessing the first product in the array
+                console.log(couponData);
+                debugger
+                // setafterApplyCouponData(couponResponse.data)
 
-    //             if (couponData && couponData.discountAmount && couponData.discountAmount > 0) {
-    //                 setOrderTotalAfterDiscount(OrderTotal - couponData.discountAmount);
-    //                 setIsCouponCodeApplied(true);
-    //                 setafterApplyCouponDiscountAmount(parseInt(couponData.discountAmount))
-    //                 setafterApplyCouponDiscountValue(couponData.DiscountProductsMappings[0]?.DiscountValue)
-    //                 setafterApplyCouponProductName(couponData.ProductName)
+                if (couponData && couponData.discountAmount && couponData.discountAmount > 0) {
+                    setOrderTotalAfterDiscount(OrderTotal - couponData.discountAmount);
+                    setIsCouponCodeApplied(true);
+                    setafterApplyCouponDiscountAmount(parseInt(couponData.discountAmount))
+                    setafterApplyCouponDiscountValue(couponData.DiscountProductsMappings[0]?.DiscountValue)
+                    setafterApplyCouponProductName(couponData.ProductName)
 
-    //             } else {
-    //                 showErrorMsg('Invalid coupon code!');
-    //             }
-    //         } else {
-    //             // In case no data is returned from the API
-    //             showErrorMsg('No products found with the given coupon code.');
-    //         }
-    //     } catch (error) {
-    //         console.error("Error fetching coupon data:", error);
-    //         if (error.response && error.response.data && error.response.data.message) {
-    //             // Display the error message returned by the API
-    //             showErrorMsg(error.response.data.message);
-    //         } else {
-    //             // Display a generic error message if no message is returned from the API
-    //             showErrorMsg('An error occurred while applying the coupon code.');
-    //         }
-    //     }
-
-
+                } else {
+                    showErrorMsg('Invalid coupon code!');
+                }
+            } else {
+                // In case no data is returned from the API
+                showErrorMsg('No products found with the given coupon code.');
+            }
+        } catch (error) {
+            console.error("Error fetching coupon data:", error);
+            if (error.response && error.response.data && error.response.data.message) {
+                // Display the error message returned by the API
+                showErrorMsg(error.response.data.message);
+            } else {
+                // Display a generic error message if no message is returned from the API
+                showErrorMsg('An error occurred while applying the coupon code.');
+            }
+        }
 
 
-    //     // if (couponResponse != null && couponResponse.data != null) {
 
-    //     //     let copounData = JSON.parse(couponResponse.data.data);
-    //     //     console.log(copounData);
-    //     //     if (copounData != undefined && copounData.DiscountValueAfterCouponAppliedWithQuantity != undefined && copounData.DiscountValueAfterCouponAppliedWithQuantity > 0) {
-    //     //         setOrderTotalAfterDiscount((OrderTotal - copounData.DiscountValueAfterCouponAppliedWithQuantity ?? 0));
-    //     //         setIsCouponCodeApplied(true);
-    //     //     } else {
-    //     //         showErrorMsg('Invalid coupon code!');
-    //     //     }
 
-    //     // }
+        // if (couponResponse != null && couponResponse.data != null) {
 
-    // }
+        //     let copounData = JSON.parse(couponResponse.data.data);
+        //     console.log(copounData);
+        //     if (copounData != undefined && copounData.DiscountValueAfterCouponAppliedWithQuantity != undefined && copounData.DiscountValueAfterCouponAppliedWithQuantity > 0) {
+        //         setOrderTotalAfterDiscount((OrderTotal - copounData.DiscountValueAfterCouponAppliedWithQuantity ?? 0));
+        //         setIsCouponCodeApplied(true);
+        //     } else {
+        //         showErrorMsg('Invalid coupon code!');
+        //     }
+
+        // }
+
+    }
 
 
     // const GetCouponCodeInfo = async () => {
@@ -444,6 +449,8 @@ export default function Checkout() {
         let CartSubTotalDummy = 0;
         let ShippingSubTotalDummy = 0;
         let OrderTotalDummy = 0;
+        let InternationalShippingSubTotalDummy = 0;
+
         let TaxTotalDummy = 0;
 
         let shippingChargeApplied = false;
@@ -456,7 +463,8 @@ export default function Checkout() {
             console.log('Item Tax Total:', itemTaxTotal);
 
             CartSubTotalDummy += itemSubTotal;
-            TaxTotalDummy += itemTaxTotal; // ✅ Tax ko add kar diya
+            TaxTotalDummy += itemTaxTotal || 0; // ✅ Tax ko add kar diya
+            InternationalShippingSubTotalDummy += item?.InternationCharge || 0;
 
             const shipping = applyShippingCharge(item, shippingChargeApplied);
             console.log('Shipping Charge:', shipping.charge);
@@ -465,7 +473,7 @@ export default function Checkout() {
         });
 
         // Order total me ab subtotal + tax bhi include hoga
-        OrderTotalDummy = CartSubTotalDummy + TaxTotalDummy;
+        OrderTotalDummy = CartSubTotalDummy + TaxTotalDummy + (currency === "USD" ? InternationalShippingSubTotalDummy : 0);
 
         console.log('Cart SubTotal:', CartSubTotalDummy);
         console.log('Tax SubTotal:', TaxTotalDummy);
@@ -483,6 +491,7 @@ export default function Checkout() {
         setCartSubTotal(makePriceRoundToTwoPlaces(CartSubTotalDummy));
         setTaxTotal(makePriceRoundToTwoPlaces(TaxTotalDummy)); // ✅ Tax total state me set kar diya
         setShippingSubTotal(makePriceRoundToTwoPlaces(ShippingSubTotalDummy));
+        setInsternationalShippingSubTotal(makePriceRoundToTwoPlaces(InternationalShippingSubTotalDummy));
         setOrderTotal(makePriceRoundToTwoPlaces(OrderTotalDummy));
     };
 
@@ -525,33 +534,20 @@ export default function Checkout() {
     // debugger
 
     const handleCheckoutOnSubmit = async (e) => {
-       
+
         // debugger
-      
+
         try {
             e.preventDefault();
             setshowCardSectionStripe(false);
             setshowCardSectionPaypal(false);
             console.log(PaymentMethod);
 
-            // const myform=new FormData
-
-            // myform.append("name",name)
-            // myform.append("lname",lname)
-            // myform.append("email",email)
-            // myform.append("phone",phone)
-            // myform.append("address",address)
-            // myform.append("shippingAddress",shippingAddress)
-            // myform.append("PostalCode",PostalCode)
-            // myform.append("CountryName",CountryName)
-            // myform.append("CityName",CityName)
-            // myform.append("StateName",StateName)
-
-        //   debugger
-            if (phone==="undefined" ||!name || !lname || !email || !address || !shippingAddress || !PostalCode || !CountryName || !CityName || !StateName || !phone) {  
+            //   debugger
+            if (phone === "undefined" || !name || !lname || !email || !address || !shippingAddress || !PostalCode || !CountryName || !CityName || !StateName || !phone) {
                 showWarningMsg("Please fill all the fields");
                 return;
-            }  
+            }
 
             const myform = {
                 name: name,
@@ -565,11 +561,7 @@ export default function Checkout() {
                 StateName: StateName,
                 phone: phone,
             }
-            // debugger
 
-            // dispatch(updateUser(myform))
-
-            // /api/v1/me/update
 
             const updaetUser = await axiosInstance.put(Config.END_POINT_LIST["UPDATE_USER_DETAILS"], myform, { withCredentials: true })
             console.log(updaetUser)
@@ -578,10 +570,13 @@ export default function Checkout() {
 
             if (PaymentMethod === import.meta.env.VITE_APP_STRIPE_PAYMENT_METHOD) {
                 setshowCardSectionStripe(true);
-            } else if (PaymentMethod === import.meta.env.VITE_APP_PAYPAL_PAYMENT_METHOD) {
+            }
+            else if (PaymentMethod === import.meta.env.VITE_APP_PAYPAL_PAYMENT_METHOD) {
                 setshowCardSectionPaypal(true);
 
-            } else if (PaymentMethod == import.meta.env.VITE_APP_CASH_ON_DELIVERY_PAYMENT_METHOD) {
+            }
+            else if (PaymentMethod == import.meta.env.VITE_APP_CASH_ON_DELIVERY_PAYMENT_METHOD) {
+                // debugger
                 let isYes = window.confirm("Do you really want to place the order?");
                 if (isYes) {
                     setLoading(true)
@@ -589,81 +584,117 @@ export default function Checkout() {
                     setLoading(false)
                 }
             }
+
+            //  --------------  Razorpay payment method  ----------------------------
+
+            else if (PaymentMethod == import.meta.env.VITE_APP_RAZORPAY_PAYMENT_METHOD) {
+                // debugger
+                const isYes = window.confirm("Do you really want to place the order?");
+                if (!isYes) return;
+
+                setLoading(true);
+
+                try {
+
+
+                    let rawAmount = parseFloat(
+                        OrderTotalAfterDiscount && OrderTotalAfterDiscount > 0
+                            ? OrderTotalAfterDiscount
+                            : OrderTotal
+                    );
+
+                    let formattedAmount = 0;
+
+                    if (currency === "INR") {
+                        formattedAmount = Math.round(rawAmount * 100);
+                    } else if (currency === "USD") {
+                        const usdAmount = rawAmount * rate;
+                        formattedAmount = Math.round(usdAmount * 100);
+                    }
+
+                    console.log("Final Amount to Razorpay:", formattedAmount, currency);
+
+
+
+                    if (isNaN(formattedAmount) || formattedAmount <= 0) {
+                        alert("Invalid amount. Please check your order total.");
+                        return;
+                    }
+
+                    // const finallyAmount=currency==="USD"?<AutoCurrencyPrice Price={formattedAmount}/>:formattedAmount
+
+                    // Create product info by combining product names and quantities
+                    let productDetails = cartItems.map(product => `${product.ProductName} - Quantity: ${product.Quantity}`).join(', ');
+
+
+                    // const { amount, id: order_id, currency } = response.data;
+
+                    // 👇 Step 2: Razorpay options set karo
+
+                    const { data } = await axiosInstance.post("/api/v1/create-order-razorpay", {
+                        amount: formattedAmount,
+                        currency,
+                    });
+                    console.log("data", data)
+
+                    // const productNames = productDetails.map(p => p.ProductName).join(" - ");
+
+
+                    const options = {
+                        key: import.meta.env.VITE_APP_RAZORPAY_KEY, // public Razorpay key
+                        amount: data.order.amount,
+                        currency: data.order.currency,
+                        name: user.name,
+                        description: "Order Payment",
+                        order_id: data.order.id,
+
+
+
+                        handler: async function (response) {
+                            // debugger
+                            // Step 3: Verify payment on backend
+                            const res = await axiosInstance.post("/api/v1/payment/verify", {
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature,
+                            });
+
+                            if (res.data.success) {
+                                //  Payment verified, place the order
+                                await PlaceAndConfirmCustomerOrder(response.razorpay_payment_id);
+                                alert("Payment Successful and Order Placed!");
+                            } else {
+                                alert("Payment verification failed.");
+                            }
+                        },
+                        prefill: {
+                            name: user.name,
+                            email: user.email,
+                            contact: user.phone,
+
+                        },
+                        notes: {
+                            Address: user.address,
+                            City: user.CityName,
+                            products: productDetails,   // 👈 yaha daal
+                        },
+                        theme: {
+                            color: "#3399cc",
+                        },
+                    };
+
+                    const rzp = new window.Razorpay(options);
+                    rzp.open();
+
+                } catch (error) {
+                    console.error("Razorpay error:", error);
+                    alert("Payment failed. Please try again.");
+                } finally {
+                    setLoading(false);
+                }
+            }
+
             else if (PaymentMethod == import.meta.env.VITE_APP_PAYUMONEY_PAYMENT_METHOD) {
-                // const formattedAmount = parseFloat(OrderTotalAfterDiscount != undefined && OrderTotalAfterDiscount > 0 ? OrderTotalAfterDiscount : OrderTotal).toFixed(2);
-                // if (isNaN(formattedAmount) || formattedAmount <= 0) {
-                //     showErrorMsg("Invalid amount. Please check your order total.");
-                //     return;
-                // }
-                // const productNames = cartItems.map(product => product.ProductName).join(', ');
-                // const Quantity = cartItems.map(qty => qty.Quantity).join(', ');
-
-                // //  🌿🌿🌿🌿 All Working Well Related to Payment Getwaye 
-
-                // const response = await axiosInstance.post(Config.END_POINT_LIST["PAY_U_MONEY_PAYMNETS"],{ withCredentials: true }, {
-                //     amount: formattedAmount,
-                //     email: user.email,
-                //     phone: user.phone,
-                //     productinfo: productNames,
-                //     firstname: user.name,
-                //     city: user.CityName,
-                //     state: user.StateName,
-                //     address1: user.address,
-                //     udf1: cartItems,
-                //     udf2: Quantity,
-                // });
-
-                // if (response.data && response.data.txnid && response.data.hash && response.data.merchantKey) {
-                //     const { txnid, hash, merchantKey } = response.data;
-
-                //     const paymentUrl = 'https://secure.payu.in/_payment';
-
-                //     // Create and submit the form
-                //     const form = document.createElement('form');
-                //     form.method = 'POST';
-                //     form.action = paymentUrl;
-
-                //     const params = {
-                //         key: merchantKey,
-                //         txnid,
-                //         amount: formattedAmount,
-                //         email: user.email,
-                //         phone: user.phone,
-                //         productinfo: productNames,
-                //         firstname: user.name,
-                //         surl: `http://localhost:5173//pay-u-money-payment-success`,
-                //         furl: `http://localhost:5173//pay-u-money-payment-fail`,
-                //         // address1: loginUser.AddressLineOne,
-                //         hash,
-                //         city: user.CityName,
-                //         state: user.StateName,
-                //         address1: user.address,
-
-
-                //     };
-
-                //     Object.keys(params).forEach(key => {
-                //         const hiddenField = document.createElement('input');
-                //         hiddenField.type = 'hidden';
-                //         hiddenField.name = key;
-                //         hiddenField.value = params[key];
-                //         form.appendChild(hiddenField);
-                //     });
-
-                //     document.body.appendChild(form);
-                //     form.submit();
-
-                //     // Always call PlaceAndConfirmCustomerOrder regardless of payment success or failure
-                //     // await PlaceAndConfirmCustomerOrder(null);
-                // } else {
-                //     console.error("Payment API response error", response.data);
-                //     showErrorMsg("Failed to initiate payment. Please try again.");
-                //     // await PlaceAndConfirmCustomerOrder(null); // Call this even if payment initiation fails
-                // }
-
-                //    debugger
-
-
 
                 // 👉👉👉 All Working well 
 
@@ -834,6 +865,7 @@ export default function Checkout() {
     };
 
     const PlaceAndConfirmCustomerOrder = async (StripPaymentToken, payPalOrderConfirmJson = "{}") => {
+        // debugger
         try {
             const headersStrip = {
                 Accept: 'application/json',
@@ -849,6 +881,7 @@ export default function Checkout() {
                 PaymentMethod: PaymentMethod,
                 paymentToken: StripPaymentToken ?? "",
                 payPalOrderConfirmJson: payPalOrderConfirmJson ?? "",
+                bank_ref_num: StripPaymentToken
 
             };
 
@@ -1303,7 +1336,7 @@ export default function Checkout() {
                                                 <p>Phone<span>*</span></p>
                                                 <input type="text" placeholder="Enter contact no" id="phone" name="phone"
                                                     onChange={(e) => setMobileNo(e.target.value)}
-                                                    value={phone}  required={true}/>
+                                                    value={phone} required={true} />
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
@@ -1351,9 +1384,14 @@ export default function Checkout() {
                                                             {cartItems.map((item, ind) => (
                                                                 <tr>
                                                                     <td>{item.ProductName.slice(0, 50)}...</td>
-                                                                    <td>&#8377;{item.Price}</td>
+                                                                    <td>
+                                                                        <AutoCurrencyPrice Price={item.Price} />
+                                                                    </td>
                                                                     <td style={{ textAlign: "center" }}>{item.Quantity}</td>
-                                                                    <td>&#8377;{(item.Price) * (item.Quantity)}</td>
+                                                                    <td>
+                                                                        {/* &#8377;{(item.Price) * (item.Quantity)} */}
+                                                                        <AutoCurrencyPrice Price={(item.Price) * (item.Quantity)} />
+                                                                    </td>
                                                                 </tr>
                                                             ))}
                                                         </tbody>
@@ -1372,11 +1410,28 @@ export default function Checkout() {
                                                 </div>
                                             )
                                         }
-                                        <div className="checkout__order__subtotal">Subtotal <span>&#8377; {CartSubTotal.toFixed(2)}</span></div>
-                                        <div className="checkout__order__subtotal">Shipping Charge <span> &#8377; {ShippingSubTotal.toFixed(2)}</span></div>
-                                        <div className="checkout__order__subtotal">Tax Charge <span> &#8377; {TaxTotal.toFixed(2)}</span></div>
+                                        <div className="checkout__order__subtotal">Subtotal
+                                            {/* <span>&#8377; {CartSubTotal.toFixed(2)}</span> */}
+                                            <span> <AutoCurrencyPrice Price={CartSubTotal} /></span>
+                                        </div>
+                                        <div className="checkout__order__subtotal">Shipping Charge
+                                            {/* <span> &#8377; {ShippingSubTotal.toFixed(2)}</span> */}
+                                            {/* <span> <AutoCurrencyPrice Price={ShippingSubTotal} /></span> */}
+
+                                            <span>{
+                                                currency === "USD" ? (
+                                                    <AutoCurrencyPrice Price={InternationalShippingSubTotal} />
+                                                ) : (
+                                                    <AutoCurrencyPrice Price={ShippingSubTotal} />
+                                                )
+                                            }</span>
+                                        </div>
+                                        <div className="checkout__order__subtotal">Tax Charge
+                                            {/* <span> &#8377; {TaxTotal.toFixed(2)}</span> */}
+                                            <span> <AutoCurrencyPrice Price={TaxTotal} /></span>
+                                        </div>
                                         <div className="checkout__order__total"> Total
-                                            <span>&#8377;
+                                            {/* <span>&#8377;
                                                 {OrderTotalAfterDiscount != undefined && OrderTotalAfterDiscount > 0
                                                     ?
                                                     <>
@@ -1385,6 +1440,9 @@ export default function Checkout() {
                                                     :
                                                     ` ${makePriceRoundToTwoPlaces(OrderTotal).toFixed(2)}`
                                                 }
+                                            </span> */}
+                                            <span>
+                                                <AutoCurrencyPrice Price={OrderTotalAfterDiscount != undefined && OrderTotalAfterDiscount > 0 ? OrderTotalAfterDiscount : OrderTotal} />
                                             </span>
                                         </div>
 
@@ -1434,21 +1492,44 @@ export default function Checkout() {
 
                                         {
                                             activePaymentMethod.length > 0 ?
-                                                <>
-                                                    {activePaymentMethod.map((category, index) =>
-                                                        <div className="checkout__input__checkbox" key={index}>
-                                                            <label for={`payment_${category._id}`}>
-                                                                {category.name}
-                                                                <input type="checkbox" id={`payment_${category._id}`}
-                                                                    value={category.displaySeqNo}
-                                                                    checked={PaymentMethod === category.displaySeqNo}
-                                                                    onChange={(e) => setPaymentMethod(category.displaySeqNo)} />
-                                                                <span className="checkmark"></span>
-                                                            </label>
-                                                        </div>
-                                                    )}
+                                                // <>
+                                                //     {activePaymentMethod.map((category, index) =>
+                                                //         <div className="checkout__input__checkbox" key={index}>
+                                                //             <label htmlFor={`payment_${category._id}`}>
+                                                //                 {currency==="USD"&& category.name==="Case on delivery" }
+                                                //                 <input type="checkbox" id={`payment_${category._id}`}
+                                                //                     value={category.displaySeqNo}
+                                                //                     checked={PaymentMethod === category.displaySeqNo}
+                                                //                     onChange={(e) => setPaymentMethod(category.displaySeqNo)} />
+                                                //                 <span className="checkmark"></span>
+                                                //             </label>
+                                                //         </div>
+                                                //     )}
 
+                                                // </>
+                                                <>
+                                                    {activePaymentMethod
+                                                        // sirf active payment methods lo
+                                                        .filter(category => category.IsActive === "true")
+                                                        // agar USD hai to "Case on delivery" hata do
+                                                        .filter(category => !(currency === "USD" && category.name === "Case on delivery"))
+                                                        .map((category, index) => (
+                                                            <div className="checkout__input__checkbox" key={index}>
+                                                                <label htmlFor={`payment_${category._id}`}>
+                                                                    {category.name}
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        id={`payment_${category._id}`}
+                                                                        value={category.displaySeqNo}
+                                                                        checked={PaymentMethod === category.displaySeqNo}
+                                                                        onChange={(e) => setPaymentMethod(category.displaySeqNo)}
+                                                                    />
+                                                                    <span className="checkmark"></span>
+                                                                </label>
+                                                            </div>
+                                                        ))}
                                                 </>
+
 
                                                 : ""
                                         }

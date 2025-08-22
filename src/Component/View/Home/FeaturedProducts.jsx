@@ -131,11 +131,11 @@ import Config from '../../Comman/Config';
 import axiosInstance from '../../../ApiHendler/axiosInstance';
 import { Link } from 'react-router-dom';
 import "./featured.css"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showErrorMsg, showInfoMsg } from '../../../utils/ShowMessage';
 import { AddCustomerWishList, AddProductToCart } from '../../../utils/CartHelper';
 import { setCustomerCart, SetTotalCartItems } from '../../../Store/features/cartSlice/cartSlice';
-
+import AutoCurrencyPrice from '../../../CurrencyConvetor/AutoCurrencyPrice';
 const BASE_URL = import.meta.env.VITE_IMG_URL;
 
 export default function FeaturedProducts(props) {
@@ -144,6 +144,18 @@ export default function FeaturedProducts(props) {
     const [activeFilter, setActiveFilter] = useState("*");
     const [displayedProducts, setDisplayedProducts] = useState(10);
     const dispatch = useDispatch();
+const { currency, rate, loading } = useSelector((state) => state.currency);
+const symbolMap = {
+  INR: '₹',
+  USD: '$',
+  EUR: '€',
+  GBP: '£',
+  CAD: 'CA$',
+  AUD: 'A$',
+  JPY: '¥',
+};
+const symbol = symbolMap[currency] || currency + ' ';
+
 
     useEffect(() => {
         if (props.AllProducts && props.AllProducts.length) {
@@ -170,7 +182,7 @@ export default function FeaturedProducts(props) {
         setDisplayedProducts(displayedProducts + 10); // Load 10 more products
     };
 
-    const HandleAddToCart = ({ id, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, Tax }) => {
+    const HandleAddToCart = ({ id, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, Tax,Sku }) => {
         if (!id) {
             showErrorMsg("Invalid product!");
             return false;
@@ -185,13 +197,13 @@ export default function FeaturedProducts(props) {
 
         let defaultImage = ProductPictures;
 
-        let cartItems = AddProductToCart(id, quentyProduct, defaultImage, Price, ProductName, IsShippingFree, ShippingCharge, OrderMaximumQuantity, Tax);
+        let cartItems = AddProductToCart(id, quentyProduct, defaultImage, Price, ProductName, IsShippingFree, ShippingCharge, OrderMaximumQuantity, Tax,Sku);
         dispatch(setCustomerCart(cartItems));
         dispatch(SetTotalCartItems(JSON.parse(cartItems).length));
     };
 
-    const HandleAddToWishList = ({ ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode }) => {
-        let customerWishList = AddCustomerWishList(ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode);
+    const HandleAddToWishList = ({ ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode,Sku }) => {
+        let customerWishList = AddCustomerWishList(ProductId, ProductName, Price, IsShippingFree, ShippingCharge, OrderMaximumQuantity, StockQuantity, ProductPictures, DiscountPrice, CouponCode,Sku);
         localStorage.setItem("customerWishList", customerWishList);
     };
 
@@ -244,6 +256,7 @@ export default function FeaturedProducts(props) {
                                                     ProductPictures: item.ProductPictures[0],
                                                     DiscountPrice: item.DiscountProductsMappings.DiscountValue,
                                                     CouponCode: item.DiscountProductsMappings.couponCode,
+                                                    Sku:item.Sku
                                                 });
                                             }}><i className="fa fa-heart"></i></Link></li>
                                             <li><Link to="#"><i className="fa fa-retweet"></i></Link></li>
@@ -259,13 +272,18 @@ export default function FeaturedProducts(props) {
                                                     OrderMaximumQuantity: item.OrderMaximumQuantity,
                                                     StockQuantity: item.StockQuantity,
                                                     ProductPictures: item.ProductPictures[0],
+                                                                                                        Sku:item.Sku
+
                                                 });
                                             }}><i className="fa fa-shopping-cart"></i></Link></li>
                                         </ul>
                                     </div>
                                     <div className="featured__item__text">
                                         <h6><Link to="#">{(item?.ProductName).slice(0, 40)}</Link></h6>
-                                        <h5>&#8377;{item?.Price} <sub><del>{item?.OldPrice}</del></sub></h5>
+                                        {/* <h5>&#8377;{item?.Price} <sub><del>{item?.OldPrice}</del></sub></h5> */}
+                                        <h5><AutoCurrencyPrice Price={item?.Price} /></h5>
+                                      
+
                                     </div>
                                 </div>
                             </div>
