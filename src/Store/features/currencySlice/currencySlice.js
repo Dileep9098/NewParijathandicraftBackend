@@ -173,6 +173,7 @@
 // export default currencySlice.reducer;
 
 
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -182,6 +183,8 @@ export const fetchCurrency = createAsyncThunk(
     try {
       // Real user IP ke liye
       const ipRes = await axios.get("https://ipwho.is/");
+      
+      // const ipRes = await axios.get("https://ipwho.is/95.163.32.140");
 
       // Testing ke liye fixed USA IP:
       // const ipRes = await axios.get("https://ipwho.is/8.8.8.8");
@@ -192,11 +195,12 @@ export const fetchCurrency = createAsyncThunk(
       if (countryCode === "IN") {
         userCurrency = "INR";
       }
+      let rate=userCurrency==="USD"?0.012: 1
 
-      return { currency: userCurrency };
+      return { currency: userCurrency,rate:rate };
     } catch (err) {
       console.error("Currency fetch failed", err);
-      return { currency: "INR" }; // fallback INR
+      return { currency: "INR",rate:1 }; // fallback INR
     }
   }
 );
@@ -206,6 +210,7 @@ const currencySlice = createSlice({
   initialState: {
     currency: "INR",
     loading: true,
+    rate:1
   },
   extraReducers: (builder) => {
     builder
@@ -214,11 +219,14 @@ const currencySlice = createSlice({
       })
       .addCase(fetchCurrency.fulfilled, (state, action) => {
         state.currency = action.payload.currency;
+        state.rate = action.payload.rate;
         state.loading = false;
       })
       .addCase(fetchCurrency.rejected, (state) => {
         state.loading = false;
         state.currency = "INR";
+        state.rate = 1;
+
       });
   },
 });
