@@ -587,8 +587,8 @@ export default function Checkout() {
 
             //  --------------  Razorpay payment method  ----------------------------
 
-            else if (PaymentMethod === import.meta.env.VITE_APP_RAZORPAY_PAYMENT_METHOD) {
                 debugger
+            else if (PaymentMethod === import.meta.env.VITE_APP_RAZORPAY_PAYMENT_METHOD) {
                 const isYes = window.confirm("Do you really want to place the order?");
                 if (!isYes) return;
 
