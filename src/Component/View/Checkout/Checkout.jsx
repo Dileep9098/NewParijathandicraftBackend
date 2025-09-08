@@ -535,7 +535,7 @@ export default function Checkout() {
 
     const handleCheckoutOnSubmit = async (e) => {
 
-        // debugger
+        debugger
 
         try {
             e.preventDefault();
