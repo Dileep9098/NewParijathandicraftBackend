@@ -535,7 +535,7 @@ export default function Checkout() {
 
     const handleCheckoutOnSubmit = async (e) => {
 
-        debugger
+        // debugger
 
         try {
             e.preventDefault();
@@ -587,7 +587,7 @@ export default function Checkout() {
 
             //  --------------  Razorpay payment method  ----------------------------
 
-                debugger
+                // debugger
             else if (PaymentMethod === import.meta.env.VITE_APP_RAZORPAY_PAYMENT_METHOD) {
                 const isYes = window.confirm("Do you really want to place the order?");
                 if (!isYes) return;
@@ -595,7 +595,6 @@ export default function Checkout() {
                 setLoading(true);
 
                 try {
-
 
                     let rawAmount = parseFloat(
                         OrderTotalAfterDiscount && OrderTotalAfterDiscount > 0
@@ -607,7 +606,7 @@ export default function Checkout() {
 
                     if (currency === "INR") {
                         formattedAmount = Math.round(rawAmount * 100);
-                    } else if (currency === "USD") {
+                    } else (currency === "USD") {
                         const usdAmount = rawAmount * rate;
                         formattedAmount = Math.round(usdAmount * 100);
                     }
@@ -623,7 +622,6 @@ export default function Checkout() {
 
                     // const finallyAmount=currency==="USD"?<AutoCurrencyPrice Price={formattedAmount}/>:formattedAmount
 
-                    // Create product info by combining product names and quantities
                     let productDetails = cartItems.map(product => `${product.ProductName} - Quantity: ${product.Quantity}`).join(', ');
 
 
@@ -676,9 +674,7 @@ export default function Checkout() {
                         notes: {
                             Address: user.address,
                             City: user.CityName,
-                            products: productDetails,   // 👈 yaha daal
-                        },
-                        theme: {
+                            products: productDetails,   
                             color: "#3399cc",
                         },
                     };
